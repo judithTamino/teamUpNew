@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
-mongoose.connect ("mongodb://localhost:27017/TeamUp",{ useUnifiedTopology: true, useNewUrlParser: true });
+const path = require ('path');
 
-const UserSchema = new mongoose.Schema ({
+
+mongoose.connect("mongodb://localhost:27017/TeamUp", {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+});
+
+const UserSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
@@ -9,11 +15,11 @@ const UserSchema = new mongoose.Schema ({
     state: String,
     joiningDate: String,
     interests: Array,
-    groups: Array
-    
+    groups: Array,
+    profileImage: Buffer
 });
 
-const GroupSchema = new mongoose.Schema ({
+const GroupSchema = new mongoose.Schema({
     groupManager: String,
     groupName: String,
     street: String,
@@ -29,31 +35,41 @@ const GroupSchema = new mongoose.Schema ({
     status: String
 });
 
-const User = mongoose.model ("users", UserSchema);
-const Group = mongoose.model ('groups', GroupSchema);
+const User = mongoose.model("users", UserSchema);
+const Group = mongoose.model('groups', GroupSchema);
 
-function findUserByEmail (req, res) {
-    User.find ((err, users) => {
-        if (err) {
-            res.status(500).send (err)
-            return;
-        }
-        res.status(200).send (users)
-    })
-    // const userEmail = req.body;
+function upLoadPhoto(req, res) {
+    res.status(201).send({body:req.body, file:req.file} );
+    // const userImage = {$set: {profileImage: req.file}} ;
+    // const userEmail =  {email: req.body.email};
 
-    // console.log (userEmail);
-    // User.findOne ({email: userEmail}, function (err, obj) {
-    //     if (err) console.log (`err : ${err}`);
-    //     else {
-    //         res.send(obj);
-    //     }  
-    // })  
+    // User.updateOne (userEmail, userImage, (err, req) => {
+    //     if (err) {
+    //         res.send (err)
+    //     } else {
+    //         res.status(201).send(req.body, req.file)
+    //     }
+    // });
 }
 
-function createGroup (req, res) {
+function getProfileImage (req, res) {
+    const FullFileName = path.join (__dirname, 'users/', req.params.filename);
+    res.send (FullFileName);  
+}
+
+function findUserByEmail(req, res) {
+    User.find((err, users) => {
+        if (err) {
+            res.status(500).send(err)
+            return;
+        }
+        res.status(200).send(users)
+    })
+}
+
+function createGroup(req, res) {
     const group = req.body;
-    const groupObj = new Group ({
+    const groupObj = new Group({
         groupManager: group.groupManager,
         groupName: group.groupName,
         street: group.street,
@@ -69,12 +85,12 @@ function createGroup (req, res) {
         status: group.state
     });
 
-    groupObj.save ();
-    res.status (201).send (groupObj);
+    groupObj.save();
+    res.status(201).send(groupObj);
 }
 
-function registration (req, res) {
-   const user = req.body;
+function registration(req, res) {
+    const user = req.body;
 
     const userObj = new User({
         name: user.name,
@@ -84,34 +100,39 @@ function registration (req, res) {
         state: user.state,
         joiningDate: user.joiningDate,
         interests: user.interests,
-        groups: user.groups 
+        groups: user.groups,
+        profileImage: user.profileImage
     });
 
-    User.findOne ({email:userObj.email}, function (err, obj) {
-        if (err) console.log (err);
+    User.findOne({
+        email: userObj.email
+    }, function (err, obj) {
+        if (err) console.log(err);
         if (obj !== null) {
             res.status(403).send('already exists');
         } else {
-            console.log (obj);
+            console.log(obj);
             userObj.save();
-            res.status(201).send(userObj); 
+            res.status(201).send(userObj);
         }
     })
 }
 
-function login(req,res) {
+function login(req, res) {
     const user = req.body;
 
-    User.findOne ({email: user.email, password: user.password}, function (err, obj) {
-        if (err){
+    User.findOne({
+        email: user.email,
+        password: user.password
+    }, function (err, obj) {
+        if (err) {
             console.log(err);
-        }
-        else if (obj) {
-          return res.status(200).send(obj);
+        } else if (obj) {
+            return res.status(200).send(obj);
         } else {
             return res.sendStatus(404);
-        }    
-    })   
+        }
+    })
 }
 
 
@@ -120,8 +141,5 @@ module.exports.registration = registration;
 module.exports.login = login;
 module.exports.createGroup = createGroup;
 module.exports.findUserByEmail = findUserByEmail;
-
-
-
-
-
+module.exports.upLoadPhoto = upLoadPhoto;
+module.exports.getProfileImage = getProfileImage;
