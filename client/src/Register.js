@@ -11,8 +11,8 @@ export default class Register extends Component {
     city: '',
     country: '',
     confirmedPass: '',
-    interests: '',
-    groups: '',
+    interests: [],
+    groups: [],
     redirectTOhome: false, isError: false
   };
 
@@ -22,11 +22,15 @@ export default class Register extends Component {
     axios.post('/users/register', {
       email: this.state.email,
       password: this.state.password,
-      confirmedPass: this.state.confirmedPass
+      confirmedPass: this.state.confirmedPass,
+      city: this.state.city,
+      country: this.state.country,
+      interests: this.state.interests,
+      groups: this.state.groups
     })
       .then(res => {
         console.log(res);
-        console.log (res.status);
+        console.log(res.status);
         if (res.status === 201) {
           this.setState({ redirectTOhome: true })
         } else {
@@ -41,17 +45,6 @@ export default class Register extends Component {
       })
   }
 
-  handleSubmit = () => {
-    const { password, confirmedPass } = this.state;
-    // perform all neccassary validations
-    if (password !== confirmedPass) {
-      alert("Passwords don't match");
-      return false;
-    } else {
-      // make API call
-      return true;
-    }
-  }
 
   render() {
     const disabled = this.state.password !== this.state.confirmedPass;
@@ -59,51 +52,56 @@ export default class Register extends Component {
     if (this.state.redirectTOhome) {
       return <Redirect to="/" />
     }
+    if (this.state.isError) {
+      alert('user alrady exist, please login');
+      return <Redirect to="/login/" />
+    }
 
     return (
-      <div class="registerComponent">
+      <div className="registerComponent">
 
         <form className="form-horizontal" method="post" action="#">
 
           <input type="text" name="name" id="name" placeholder="Enter your Name"
-            onChange={event => this.setState({})} /> <br /><br />
+            onChange={event => this.setState({ name: event.target.value })} required /> <br /><br />
 
           <input type="email" name="email" id="email" placeholder="Enter your Email"
-            onChange={event => this.setState({ email: event.target.value })} /><br /><br />
+            onChange={event => this.setState({ email: event.target.value })} required /><br /><br />
 
-          <input type="text" name="city" id="city" placeholder="Enter your City" /><br /><br />
+          <input type="text" name="city" id="city" placeholder="Enter your City"
+            onChange={event => this.setState({ email: event.target.value })} required /><br /><br />
 
-          <input type="text" name="state" id="state" placeholder="Enter your State" /><br /><br />
+          <input type="text" name="state" id="state" placeholder="Enter your State"
+            onChange={event => this.setState({ email: event.target.value })} required /><br /><br />
 
           <div>
-            <div id="list1" class="dropdown-check-list" tabindex="100">
-              <span class="anchor">Pick your interests :</span>
-              <ul class="items">
-                <li><input type="checkbox" />Sports & Fitnes </li>
-                <li><input type="checkbox" />Learning</li>
-                <li><input type="checkbox" />Food & Drinks </li>
-                <li><input type="checkbox" />Music </li>
-                <li><input type="checkbox" />Film </li>
-                <li><input type="checkbox" />Arts </li>
-                <li><input type="checkbox" />Book</li>
-                <li><input type="checkbox" />Dance</li>
-                <li><input type="checkbox" />Dog Wallking</li>
-                <li><input type="checkbox" />Maternity leave</li>
-                <li><input type="checkbox" />Fashion & Shopping</li>
-                <li><input type="checkbox" />Hobbies & Crafts</li>
-              </ul>
+            <div id="list1" className="dropdown-check-list" tabIndex="100">
+              <span className="anchor">Pick your interests :</span> <br /><br />
+
+              <input type="checkbox" />Sports & Fitnes <br />
+              <input type="checkbox" />Learning <br />
+              <input type="checkbox" />Food & Drinks <br />
+              <input type="checkbox" />Music <br />
+              <input type="checkbox" />Film <br />
+              <input type="checkbox" />Arts <br />
+              <input type="checkbox" />Book <br />
+              <input type="checkbox" />Dance <br />
+              <input type="checkbox" />Dog Wallking <br />
+              <input type="checkbox" />Maternity leave <br />
+              <input type="checkbox" />Fashion & Shopping <br />
+              <input type="checkbox" />Hobbies & Crafts <br /><br />
+
             </div>
           </div>
 
           <input type="password" name="password" id="password" placeholder="Enter your Password"
-            onChange={event => this.setState({ password: event.target.value })} /><br /><br />
+            onChange={event => this.setState({ password: event.target.value })} required /><br /><br />
 
           <input type="password" name="confirm" id="confirm" placeholder="Confirm your Password"
-            onChange={event => this.setState({ confirmedPass: event.target.value })} /><br /><br />
+            onChange={event => this.setState({ confirmedPass: event.target.value })} required /><br /><br />
 
           {disabled ? <p style={{ color: 'red' }}>Passwords don't match</p> : null}
-          <button type="button" onClick={this.rergister} disabled={disabled}>Register</button>
-
+          <button type="button" onClick={this.register} disabled={disabled}>Register</button>
 
         </form>
       </div>
