@@ -7,8 +7,6 @@ export default class CreateGroup extends Component {
     date = new Date(); day = this.date.getDate(); mounth = ('0' + (this.date.getMonth()+1)).slice(-2); year = this.date.getFullYear();
     currentDate = `${this.year}-${this.mounth}-${this.day}`;
 
-    testObj = "";
-
     user = localStorage.getItem ('user');
 
     state = {
@@ -54,7 +52,7 @@ export default class CreateGroup extends Component {
                 this.setState ({redirectToUserHomePage:true});
                 console.log (res);
             }).catch (err => {console.log (err)});   
-        } else {alert ('One or more of the filed are incorrect')}
+        } else {alert ('One or more of the fields are empty')}
     }
 
     allLetter = (e) => {

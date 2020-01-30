@@ -12,8 +12,20 @@ import UserHomePage from './UserHomePage';
 
 
 class App extends Component {
-  state = {user:{}} 
+  constructor(){
+    super();
+
+    this.state = {
+      loggedInStatus: "NOT_LOGGED_IN",
+      user:{},
+
+    }
+
+  }
+
+  
   temp = '';
+
 
   render() {
     return (
@@ -27,7 +39,9 @@ class App extends Component {
         </div>
 
         <Switch>
-          <Route exact path='/' component={HomePage} />
+          <Route exact path='/' render = {props =>(
+            <HomePage {...props} loggedInStatus = {this.state.loggedInStatus}/>
+          )} />
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={LogIn} />
 
