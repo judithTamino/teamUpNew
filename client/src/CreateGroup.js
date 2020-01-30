@@ -55,6 +55,10 @@ export default class CreateGroup extends Component {
         } else {alert ('One or more of the fields are empty')}
     }
 
+    redirectToUserHomePage = () => {
+        this.setState ({redirectToUserHomePage:true})
+    }
+
     allLetter = (e) => {
         if (e.target.value.match (/^[א-תA-Za-z\s\W]+$/) || e.target.value === "" ) { this.setState ({isAllLetter: true})} 
         else { this.setState ({isAllLetter: false}) }
@@ -78,9 +82,6 @@ export default class CreateGroup extends Component {
         if (this.state.beginningTime > e.target.value) {
             this.setState ({isValidTime: false});
         } else {this.setState ({isValidTime: true})}
-
-        console.log (`beginnigTime ${this.state.beginningTime }`);
-        console.log (e.target.value);
     }
 
     render() {
@@ -191,6 +192,7 @@ export default class CreateGroup extends Component {
 
                         {!this.state.isAllLetter ? <p style = {{color: 'red'}}> Letters only </p> : null }
                         <button onClick ={this.createGroup}>Create group</button> 
+                        <button onClick = {this.redirectToUserHomePage}>Profile</button>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const path = require ('path');
-
 
 mongoose.connect("mongodb://localhost:27017/TeamUp", {
     useUnifiedTopology: true,
@@ -16,11 +14,12 @@ const UserSchema = new mongoose.Schema({
     joiningDate: String,
     interests: Array,
     groups: Array,
-    profileImage: Buffer
+    profileImage: String
 });
 
 const GroupSchema = new mongoose.Schema({
     groupManager: String,
+    members: Array,
     groupName: String,
     street: String,
     streetNumber: Number,
@@ -40,30 +39,46 @@ const Group = mongoose.model('groups', GroupSchema);
 
 function upLoadPhoto(req, res) {
     res.status(201).send({body:req.body, file:req.file} );
-    // const userImage = {$set: {profileImage: req.file}} ;
-    // const userEmail =  {email: req.body.email};
 
-    // User.updateOne (userEmail, userImage, (err, req) => {
-    //     if (err) {
-    //         res.send (err)
-    //     } else {
-    //         res.status(201).send(req.body, req.file)
-    //     }
-    // });
-}
+    const userImage = {$set: {profileImage: req.file.filename}};
+    const userEmail =  {email: req.body.email};
 
-function getProfileImage (req, res) {
-    const FullFileName = path.join (__dirname, 'users/', req.params.filename);
-    res.send (FullFileName);  
+    User.updateOne (userEmail, userImage, (err) => {
+        if (err) {
+            res.send (err)
+        } else {
+            res.status (200)
+        }
+    });
 }
 
 function findUserByEmail(req, res) {
     User.find((err, users) => {
         if (err) {
-            res.status(500).send(err)
+            res.status(404).send(err)
             return;
         }
         res.status(200).send(users)
+    })
+}
+
+function deleteGroup (req, res) {
+    Group.deleteOne ({ "_id": new mongoose.Types.ObjectId(`${req.params.id}`)}, function (err) {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            res.sendStatus(200);
+        }
+    });
+}
+
+function getAllManagerGroups (req, res) {
+    Group.find ({groupManager:req.params.userEmail}, function (err, arrGroups) {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            res.status(200).send(arrGroups);
+        }
     })
 }
 
@@ -71,6 +86,7 @@ function createGroup(req, res) {
     const group = req.body;
     const groupObj = new Group({
         groupManager: group.groupManager,
+        members: group.members,
         groupName: group.groupName,
         street: group.street,
         streetNumber: group.streetNumber,
@@ -142,4 +158,5 @@ module.exports.login = login;
 module.exports.createGroup = createGroup;
 module.exports.findUserByEmail = findUserByEmail;
 module.exports.upLoadPhoto = upLoadPhoto;
-module.exports.getProfileImage = getProfileImage;
+module.exports.getAllManagerGroups = getAllManagerGroups;
+module.exports.deleteGroup = deleteGroup;
