@@ -9,6 +9,7 @@ import Register from './Register';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
 import UserHomePage from './UserHomePage';
+<<<<<<< HEAD
 import Logout from './Logout'
 
 
@@ -41,8 +42,28 @@ class App extends Component {
         this.setState({ isError: true })
         console.log(err);
       })
-  }
+=======
+import EditGroup from './EditGroup';
 
+
+class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      loggedInStatus: "NOT_LOGGED_IN",
+      user:{},
+      managerGroupsArr:[],
+    }
+>>>>>>> 03052024e87966dcb57aff6aecb97b9262f83dab
+  }
+  id = '';
+
+<<<<<<< HEAD
+=======
+  getId = (id) => {
+    this.id = id;
+  }
+>>>>>>> 03052024e87966dcb57aff6aecb97b9262f83dab
 
   temp = '';
 
@@ -73,6 +94,7 @@ class App extends Component {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={LogIn} />
 
+<<<<<<< HEAD
           <Route exact path='/userHomePage' render={
             () => <UserHomePage getUser={this.state.user} />
           } />
@@ -80,12 +102,21 @@ class App extends Component {
 
 
           <Route exact path='/createGroup' component={CreateGroup} />
+=======
+          <Route exact path ='/userHomePage' render = {
+            () => <UserHomePage getUser = {this.state.user}/>
+          }/>
+
+          <Route exact path = '/createGroup' component = {CreateGroup}/>
+          <Route exact path = '/editGroup' component = {EditGroup}/>
+>>>>>>> 03052024e87966dcb57aff6aecb97b9262f83dab
         </Switch>
 
       </BrowserRouter>
     );
   }
 
+<<<<<<< HEAD
   componentDidMount() {
     axios.get('/users/userHomePage')
       .then(res => {
@@ -95,6 +126,17 @@ class App extends Component {
       })
       .catch(err => { console.log(`error code : ${err}`); });
   }
+=======
+  componentDidMount () {
+    axios.get ('/users/userHomePage')
+    .then (res => {
+      let myUser = res.data.filter (user1 => user1.email === localStorage.user)
+      this.setState ({user:myUser[0]})  
+    })
+    .catch (err => {console.log (`error code : ${err}`);});
+
+  } 
+>>>>>>> 03052024e87966dcb57aff6aecb97b9262f83dab
 }
 
 

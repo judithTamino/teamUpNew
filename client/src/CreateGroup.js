@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default class CreateGroup extends Component {
     
-    date = new Date(); day = this.date.getDate(); mounth = ('0' + (this.date.getMonth()+1)).slice(-2); year = this.date.getFullYear();
+    date = new Date(); day = ('0' + this.date.getDate()).slice(-2); mounth = ('0' + (this.date.getMonth()+1)).slice(-2); year = this.date.getFullYear();
     currentDate = `${this.year}-${this.mounth}-${this.day}`;
 
     user = localStorage.getItem ('user');
@@ -55,6 +55,10 @@ export default class CreateGroup extends Component {
         } else {alert ('One or more of the fields are empty')}
     }
 
+    redirectToUserHomePage = () => {
+        this.setState ({redirectToUserHomePage:true})
+    }
+
     allLetter = (e) => {
         if (e.target.value.match (/^[א-תA-Za-z\s\W]+$/) || e.target.value === "" ) { this.setState ({isAllLetter: true})} 
         else { this.setState ({isAllLetter: false}) }
@@ -66,7 +70,7 @@ export default class CreateGroup extends Component {
     }
 
     validateMeetingDate = (e) => {
-        if (e.target.value < `${this.year}-${this.mounth}-${this.day}`) { 
+        if (e.target.value <`${this.year}-${this.mounth}-${this.day}`) { 
             this.setState ({isValidDate: false})
         }
         else {
@@ -78,9 +82,6 @@ export default class CreateGroup extends Component {
         if (this.state.beginningTime > e.target.value) {
             this.setState ({isValidTime: false});
         } else {this.setState ({isValidTime: true})}
-
-        console.log (`beginnigTime ${this.state.beginningTime }`);
-        console.log (e.target.value);
     }
 
     render() {
@@ -96,7 +97,7 @@ export default class CreateGroup extends Component {
                         <div>
                             <h5> Date & Location </h5>
                             <div>
-                                <input type = "date" defaultValue = "2020-01-26" onChange = {
+                                <input type = "date" defaultValue = "0000-00-00" onChange = {
                                     e => {
                                         this.setState ({date:e.target.value})
                                         this.validateMeetingDate (e);
@@ -191,6 +192,7 @@ export default class CreateGroup extends Component {
 
                         {!this.state.isAllLetter ? <p style = {{color: 'red'}}> Letters only </p> : null }
                         <button onClick ={this.createGroup}>Create group</button> 
+                        <button onClick = {this.redirectToUserHomePage}>Profile</button>
                     </div>
                 </form>
             </div>

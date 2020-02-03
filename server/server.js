@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const bodyParser = require('body-parser');
 const teamUpModule = require('./User');
+const path = require ('path');
 
 const multer = require('multer');
 const uploadDirectory = 'profileImg/';
@@ -37,15 +38,44 @@ app.get('/users/userHomePage', (req, res) => {
     teamUpModule.findUserByEmail(req, res);
 });
 
-// upload profile photo
+
+////////////////// upload profile photo
 app.post('/users/userHomePage', upload.single('imgFile'), (req, res) => {
-    // console.log (req.body.email);
-    // console.log (req.file);
     teamUpModule.upLoadPhoto(req, res);
 });
-app.get('/profileImg/:filename', (req, res) => {
-    teamUpModule.getProfileImage(req, res);
-})
+
+app.get ('/users/userHomePage/:newFileName', (req, res) => {
+    console.log ('/users/userHomePage/:newFileName is accessed');
+
+    const fullPathFileName = path.join (__dirname, uploadDirectory, req.params.newFileName);
+    res.sendFile (fullPathFileName);
+});
+
+
+////////////////// Groups
+app.get ('/groups/:userEmail', (req, res) => {
+    teamUpModule.getAllManagerGroups(req, res);
+});
+
+app.delete ('/groups/:id', (req, res) => {
+    teamUpModule.deleteGroup (req, res);
+});
+
+app.patch ('/groups/editGroup/:id', (req, res) => {
+    teamUpModule.editGroup (req, res);
+});
+
+// app.patch ('/groups/updateTime/:id', (req, res) => {
+//     teamUpModule.updateTime (req, res);
+// });
+
+// app.patch ('/groups/updateLocation/:id', (req, res) => {
+//     teamUpModule.updateLocation (req, res);
+// });
+
+// app.patch ('/groups/updateGroupName/:id', (req, res) => {
+//     teamUpModule.updateGroupName (req, res);
+// });
 
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);
