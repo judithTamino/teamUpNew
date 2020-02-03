@@ -9,13 +9,10 @@ export default class LogIn extends Component {
     this.state = {
       email:'', 
       password :'', 
-      redirectTOhome: 
-      false, 
+      redirectTOhome: false, 
       isError:false
     };
   }
-
-  
 
   login = () =>{
     this.setState({isError:false});
