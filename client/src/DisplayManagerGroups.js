@@ -1,46 +1,25 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import {MdAccountBox } from "react-icons/md";
-import {FaRegTrashAlt} from "react-icons/fa"
-import {FaRegEdit} from "react-icons/fa"
+import {FaRegTrashAlt} from "react-icons/fa";
+import {FaRegEdit} from "react-icons/fa";
 
 export default class DisplayManagerGroups extends Component {
-    state = {managerGroupsArr:[], isGroupDeleted: false}
 
-    deleteGroup = (id) => {
-        axios.delete (`/groups/${id}`)
-        .then(res => {
-            if (res.status === 200) {
-                this.setState ({isGroupDeleted:true})
-            }
-        }).catch(err => { console.log (err) });
+    constructor (props) {
+        super (props);
+        this.state = { 
+            isGroupDeleted: false,
+            redirectToEditGroup: false,
+            managerGroupsArr:[],
+            groupForEdit:[],
+            id: ''
+        }
     }
 
-    render() {
-        return (
-            <div> 
-                {this.state.isGroupDeleted ? <span>Group has been deleted</span> : null}
-                {this.state.managerGroupsArr.map ( (group,i) => {
-                    return (
-                            <div key = {i}>
-                                <MdAccountBox/>    
-                                <span>{group.groupName}</span>
-                                <div>
-                                <FaRegTrashAlt onClick = {() => {
-                                        this.deleteGroup (group._id)
-                                }}/><label>Delete</label>
-                                <br/>
-                                <FaRegEdit/><label>Edit</label>   
-                                </div>
-                            </div>
-                    );
-                })}
-            </div>
-        );
-    }
-
-    componentDidMount () {
+    getManagerGroups = () => {
         axios.get (`/groups/${localStorage.user}`)
         .then (res => {
             if (res.status === 200) {
@@ -51,10 +30,66 @@ export default class DisplayManagerGroups extends Component {
         }).catch (err => { console.log (err) });
     }
 
-    componentDidUpdate (preProps, preState) {
-        // const msg = {preProps: preProps, preState: preState.isGroupDeleted}
-        if (preState.isGroupDeleted) {
-            // render ();
+    deleteGroup = (id, index) => {
+        axios.delete (`/groups/${id}`)
+        .then(res => {
+            if (res.status === 200) {
+                let tempGroups = [...this.state.managerGroupsArr];
+                tempGroups.splice (index, 1);
+                this.setState ({managerGroupsArr:tempGroups});
+
+                this.setState ({isGroupDeleted:true});
+            }
+        }).catch(err => { console.log (err) });
+    }
+
+    getGroupForEdit = (id) => {
+        let tempGroups = [...this.state.managerGroupsArr];
+        for (let i = 0; i < tempGroups.length; i++) {
+            const element = tempGroups[i];
+            if (element._id === id) {
+                this.setState ({groupForEdit:element});
+                this.setState ({id:id});
+            }
         }
+    }
+
+    render() {
+        if (this.state.redirectToEditGroup) {
+            return <Redirect to = {{
+                pathname: '/editGroup',
+                state: {id:this.state.id, editGroup:this.state.groupForEdit}
+            }}/>
+        }
+
+        return (
+            <div> 
+                { this.state.isGroupDeleted ? <span style = {{color:'green'}}>Group has been deleted</span> : null }
+                {this.state.managerGroupsArr.map ((group, i) => {
+                    return (
+                        <div key = {i}>
+                            <MdAccountBox/> 
+                            <span>{group.groupName}</span>
+
+                            <div>
+                                <FaRegTrashAlt onClick = {() => {
+                                    this.deleteGroup (group._id, i);
+                                }}/>
+
+                                <span/>   <span/>
+
+                                <FaRegEdit onClick = {() => {
+                                    this.setState ({redirectToEditGroup:true});
+                                    this.getGroupForEdit (group._id);
+                                }}/> 
+                            </div>
+                        </div>
+                    )})}
+            </div>
+        );
+    }
+
+    componentDidMount () {
+        this.getManagerGroups ();
     }
 }

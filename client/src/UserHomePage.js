@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect} from 'react-router-dom';
+import DisplayManagerGroups from './DisplayManagerGroups';
+import axios from 'axios';
+
+
+import './style/UserHomePage.css';
 import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md"
-import axios from 'axios';
-import './style/UserHomePage.css'
-import DisplayManagerGroups from './DisplayManagerGroups';
+
+
 
 export default class UserHomePage extends Component {
 
@@ -14,31 +18,10 @@ export default class UserHomePage extends Component {
         file: '', 
         image: '', 
         newFilename: '',
-        showFile: false,
+        showFile: false
     };
-
-    redirectToCreateGroup = () => {
-        this.setState ({flag: true});
-    }
-
-    showProfilePopUp = () => { 
-        this.setState ({showProfilePopUp:true}) 
-    };
-
-    closeProfilePopUp = () => { 
-        this.setState ({showProfilePopUp:false}) 
-    };
-
-    displayImg = () => {
-        this.setState ({showFile:true})
-    }
-
-    displayIcon = () => {
-        this.setState ({ showFile: false })
-    }
 
     loadProfileImage = () => {
-
         let fromData = new FormData ();
         const config = {headers: {'content-type':'multipart/from-data'}}
 
@@ -80,64 +63,84 @@ export default class UserHomePage extends Component {
         }).catch (err => console.log (err));
     }
 
+    redirectToCreateGroup = () => {
+        this.setState ({flag: true});
+    }
+
+    showProfilePopUp = () => { 
+        this.setState ({showProfilePopUp:true}) 
+    };
+
+    closeProfilePopUp = () => { 
+        this.setState ({showProfilePopUp:false}) 
+    };
+
+    displayImg = () => {
+        this.setState ({showFile:true})
+    }
+
+    displayIcon = () => {
+        this.setState ({ showFile: false })
+    }
+
     render() {
         if (this.state.flag) {
             return <Redirect to = '/createGroup'/>
         }
         return (
-            <div>
-                <h3 className = 'userName'>{this.props.getUser.name}</h3>
-                <div>
-                    <div className = "location float-left">
-                        Location:
-                        <p>{this.props.getUser.city}</p>
-                    </div>
-
-                    <div className = "memberSince float-left">
-                        TeamUp member since:
-                        <p>{this.props.getUser.joiningDate}</p>
-                    </div>
-                </div>
-
-                <div className = "float-right">
             
+                <div>
+                    <h3 className = 'userName'>{this.props.getUser.name}</h3>
                     <div>
-                        {!this.state.showFile ? <MdAccountBox style = {{fontSize:72}}/> : <img src = {this.state.image} alt = 'profile'/>}
-                        <div onClick = { this.showProfilePopUp }>Set a profile photo</div>
+                        <div className = "location float-left">
+                            Location:
+                            <p>{this.props.getUser.city}</p>
+                        </div>
 
-                        {this.state.showProfilePopUp ?
+                        <div className = "memberSince float-left">
+                            TeamUp member since:
+                            <p>{this.props.getUser.joiningDate}</p>
+                        </div>
+                    </div>
+
+                    <div className = "float-right">
+                
                         <div>
-                            <MdClose onClick = {this.closeProfilePopUp}/>
+                            {!this.state.showFile ? <MdAccountBox style = {{fontSize:72}}/> : <img src = {this.state.image} alt = 'profile'/>}
+                            <div onClick = { this.showProfilePopUp }>Set a profile photo</div>
 
-                            <input type = "file" onChange = {
-                                e => this.setState ({file: e.target.files[0]})
-                            } onClick = {
-                                () => {
-                                    this.displayImg()
-                                }
-                            }/>
+                            {this.state.showProfilePopUp ?
+                            <div>
+                                <MdClose onClick = {this.closeProfilePopUp}/>
 
-                            <button onClick = {this.displayIcon}>Don't show a photo</button>
+                                <input type = "file" onChange = {
+                                    e => this.setState ({file: e.target.files[0]})
+                                } onClick = {
+                                    () => {
+                                        this.displayImg()
+                                    }
+                                }/>
 
-                            <button onClick = {this.loadProfileImage}>Done</button>
-                        </div> : null }
+                                <button onClick = {this.displayIcon}>Don't show a photo</button>
+
+                                <button onClick = {this.loadProfileImage}>Done</button>
+                            </div> : null }
+                        </div>
+
+                        <div>
+                            Intrests:
+                            <p>{this.props.getUser.interests}</p>
+                        </div>
+        
                     </div>
 
-                    <div>
-                        Intrests:
-                        <p>{this.props.getUser.interests}</p>
+                    <div className = "clearfix"/>
+
+                    <div >
+                        <button  onClick = {this.redirectToCreateGroup }>Start a new group</button>
                     </div>
-    
+                    <DisplayManagerGroups/>
                 </div>
-
-                <div className = "clearfix"/>
-
-                <div >
-                    <button  onClick = {this.redirectToCreateGroup }>Start a new group</button>
-                </div>
-
-                <DisplayManagerGroups/>
-            </div>
         );
   }
 }

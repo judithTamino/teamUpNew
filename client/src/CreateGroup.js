@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default class CreateGroup extends Component {
     
-    date = new Date(); day = this.date.getDate(); mounth = ('0' + (this.date.getMonth()+1)).slice(-2); year = this.date.getFullYear();
+    date = new Date(); day = ('0' + this.date.getDate()).slice(-2); mounth = ('0' + (this.date.getMonth()+1)).slice(-2); year = this.date.getFullYear();
     currentDate = `${this.year}-${this.mounth}-${this.day}`;
 
     user = localStorage.getItem ('user');
@@ -70,7 +70,7 @@ export default class CreateGroup extends Component {
     }
 
     validateMeetingDate = (e) => {
-        if (e.target.value < `${this.year}-${this.mounth}-${this.day}`) { 
+        if (e.target.value <`${this.year}-${this.mounth}-${this.day}`) { 
             this.setState ({isValidDate: false})
         }
         else {
@@ -97,7 +97,7 @@ export default class CreateGroup extends Component {
                         <div>
                             <h5> Date & Location </h5>
                             <div>
-                                <input type = "date" defaultValue = "2020-01-26" onChange = {
+                                <input type = "date" defaultValue = "0000-00-00" onChange = {
                                     e => {
                                         this.setState ({date:e.target.value})
                                         this.validateMeetingDate (e);

@@ -61,6 +61,22 @@ app.delete ('/groups/:id', (req, res) => {
     teamUpModule.deleteGroup (req, res);
 });
 
+app.patch ('/groups/editGroup/:id', (req, res) => {
+    teamUpModule.editGroup (req, res);
+});
+
+// app.patch ('/groups/updateTime/:id', (req, res) => {
+//     teamUpModule.updateTime (req, res);
+// });
+
+// app.patch ('/groups/updateLocation/:id', (req, res) => {
+//     teamUpModule.updateLocation (req, res);
+// });
+
+// app.patch ('/groups/updateGroupName/:id', (req, res) => {
+//     teamUpModule.updateGroupName (req, res);
+// });
+
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);
 });
