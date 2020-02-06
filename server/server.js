@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({
 // Register
 app.post('/users/register', (req, res) => {
     teamUpModule.registration(req, res);
+    // teamUpModule.interestsTOarray(req,res);
 });
 
 // Login
@@ -76,6 +77,8 @@ app.patch ('/groups/editGroup/:id', (req, res) => {
 // app.patch ('/groups/updateGroupName/:id', (req, res) => {
 //     teamUpModule.updateGroupName (req, res);
 // });
+
+
 
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);
