@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-import {MdAccountBox } from "react-icons/md";
+import {AiOutlineTeam } from "react-icons/ai";
 import {FaRegTrashAlt} from "react-icons/fa";
 import {FaRegEdit} from "react-icons/fa";
 
@@ -68,7 +68,7 @@ export default class DisplayManagerGroups extends Component {
                 {this.state.managerGroupsArr.map ((group, i) => {
                     return (
                         <div key = {i}>
-                            <MdAccountBox/> 
+                            <AiOutlineTeam/> 
                             <span>{group.groupName}</span>
 
                             <div>

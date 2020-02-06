@@ -34,8 +34,14 @@ const GroupSchema = new mongoose.Schema({
   status: String
 });
 
+const CategoriesSchema = new mongoose.Schema ({
+  name:String,
+  groups: Array
+});
+
 const User = mongoose.model("users", UserSchema);
 const Group = mongoose.model("groups", GroupSchema);
+const Categories = mongoose.model("categories", CategoriesSchema);
 
 function upLoadPhoto(req, res) {
   res.status(201).send({
@@ -62,30 +68,11 @@ function upLoadPhoto(req, res) {
 }
 
 function findUserByEmail(req, res) {
-  User.find((err, users) => {
-    if (err) {
-      res.status(404).send(err);
-      return;
-    }
-    res.status(200).send(users);
-  });
-}
-
-function updateDate(req, res) {
-  console.log(req.body);
-  const groupId = {
-    _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-  };
-  const newDate = {
-    $set: {
-      date: req.body.date
-    }
-  };
-  Group.updateOne(groupId, newDate, err => {
+  User.find ({email: req.params.userEmail}, function (err, user) {
     if (err) {
       res.status(404).send(err);
     } else {
-      res.sendStatus(200);
+      res.status(200).send(user);
     }
   });
 }
@@ -115,62 +102,6 @@ function editGroup(req, res) {
       }
   });
 }
-// function updateTime(req, res) {
-//   const groupId = {
-//     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-//   };
-//   const newTime = {
-//     $set: {
-//       startTime: req.body.startTime,
-//       endTime: req.body.endTime
-//     }
-//   };
-//   Group.updateOne(groupId, newTime, err => {
-//     if (err) {
-//       res.status(404).send(err);
-//     } else {
-//       res.sendStatus(200);
-//     }
-//   });
-// }
-
-// function updateLocation(req, res) {
-//   const groupId = {
-//     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-//   };
-//   const newLocation = {
-//     $set: {
-//       street: req.body.street,
-//       streetNumber: req.body.streetNumber,
-//       city: req.body.city
-//     }
-//   };
-//   Group.updateOne(groupId, newLocation, err => {
-//     if (err) {
-//       res.status(404).send(err);
-//     } else {
-//       res.sendStatus(200);
-//     }
-//   });
-// }
-
-// function updateGroupName(req, res) {
-//   const groupId = {
-//     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-//   };
-//   const newGroupName = {
-//     $set: {
-//       groupName: req.body.groupName
-//     }
-//   };
-//   Group.updateOne(groupId, newGroupName, err => {
-//     if (err) {
-//       res.status(404).send(err);
-//     } else {
-//       res.sendStatus(200);
-//     }
-//   });
-// }
 
 function deleteGroup(req, res) {
   Group.deleteOne(
@@ -222,7 +153,7 @@ function createGroup(req, res) {
   });
 
   groupObj.save();
-  res.status(201).send(groupObj);
+  res.sendStatus(201);
 }
 
 function registration(req, res) {
@@ -277,6 +208,29 @@ function login(req, res) {
   );
 }
 
+function findUserInterst (req, res) {
+  User.findOne (
+    {email: req.params.userEmail},
+    function (err, arrIntrests) {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        res.status(200).send(arrIntrests.interests);
+      }
+    }
+  );
+}
+
+function getCategories (req, res) {
+  Categories.find ((err, categories) =>{
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(categories);
+    }
+  });
+}
+
 module.exports.registration = registration;
 module.exports.login = login;
 module.exports.createGroup = createGroup;
@@ -285,7 +239,6 @@ module.exports.upLoadPhoto = upLoadPhoto;
 module.exports.getAllManagerGroups = getAllManagerGroups;
 module.exports.deleteGroup = deleteGroup;
 module.exports.editGroup = editGroup;
-// module.exports.updateDate = updateDate;
-// module.exports.updateTime = updateTime;
-// module.exports.updateLocation = updateLocation;
-// module.exports.updateGroupName = updateGroupName;
+module.exports.findUserInterst=findUserInterst;
+module.exports.getCategories=getCategories;
+

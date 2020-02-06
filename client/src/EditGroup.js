@@ -3,13 +3,22 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import "./style/EditGroup.css";
 
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import TimePicker from "react-time-picker";
+
+import 'react-datepicker/dist/react-datepicker.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {FaRegCalendar, FaRegClock, FaArrowRight, FaLocationArrow} from "react-icons/fa";
+
 export default class EditGroup extends Component {
+  oldMeetingDate = moment (this.props.location.state.editGroup.date).format ();
   state = {
     redirectToProfile: false,
     id: this.props.location.state.id,
     group: this.props.location.state.editGroup,
 
-    date: this.props.location.state.editGroup.date,
+    date: new Date(this.props.location.state.editGroup.date),
     startTime: this.props.location.state.editGroup.startTime,
     endTime: this.props.location.state.editGroup.endTime,
     street: this.props.location.state.editGroup.street,
@@ -67,7 +76,12 @@ export default class EditGroup extends Component {
   };
 
   editGroup = () => {
-    if (this.state.isValidMeetingDate && this.state.isValidEndTime && this.state.isAllLetters && this.state.isValidStartTime) {
+    if (
+      this.state.isValidMeetingDate &&
+      this.state.isValidEndTime &&
+      this.state.isAllLetters &&
+      this.state.isValidStartTime
+    ) {
       axios
         .patch(`/groups/editGroup/${this.state.id}`, {
           date: this.state.date,
@@ -81,8 +95,8 @@ export default class EditGroup extends Component {
         .then(res => {
           if (res.status === 200) {
             this.setState({ isUpdate: true });
-            setTimeout (() => {
-                this.setState ({isUpdate:false});
+            setTimeout(() => {
+              this.setState({ isUpdate: false });
             }, 1000);
           } else {
             console.log("bad");
@@ -92,11 +106,13 @@ export default class EditGroup extends Component {
           console.log(err);
         });
     } else {
-        alert ('Something went worng');
+      alert("Something went worng");
     }
   };
 
   render() {
+    console.log (this.oldMeetingDate);
+    console.log ();
     if (this.state.redirectToProfile) {
       return <Redirect to="/userHomePage" />;
     }
@@ -110,6 +126,21 @@ export default class EditGroup extends Component {
         ) : null}
 
         <div>
+          <span>
+            <FaRegCalendar />
+          </span>
+          {/* <DatePicker
+            className="form-control datepicker"
+            selected={this.state}
+            onChange={e => {
+              this.setState({ date: e });
+            }}
+            todayButton="Today"
+            placeholderText="Click to select a date"
+            minDate={new Date()}
+            dateFormat="dd/MM/yyyy"
+            highlightDates={new Date()}
+          /> */}
           <h5>Date:</h5>
           <input
             type="date"

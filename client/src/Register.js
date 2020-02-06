@@ -70,7 +70,7 @@ export default class Register extends Component {
     const disabled = this.state.password !== this.state.confirmedPass;
 
     if (this.state.redirectTOhome) {
-      return <Redirect to="/" />
+      return <Redirect to="/welcome"/>
     }
     if (this.state.isError) {
       alert('user alrady exist, please login');

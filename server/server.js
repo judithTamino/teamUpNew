@@ -34,10 +34,14 @@ app.post('/groups/createGroup', (req, res) => {
 });
 
 // Find user by email
-app.get('/users/userHomePage', (req, res) => {
+app.get('/users/userHomePage/:userEmail', (req, res) => {
     teamUpModule.findUserByEmail(req, res);
 });
 
+// Find user intrests
+app.get ('/users/findUserInterst/:userEmail', (req, res) => {
+    teamUpModule.findUserInterst(req, res);
+});
 
 ////////////////// upload profile photo
 app.post('/users/userHomePage', upload.single('imgFile'), (req, res) => {
@@ -65,17 +69,12 @@ app.patch ('/groups/editGroup/:id', (req, res) => {
     teamUpModule.editGroup (req, res);
 });
 
-// app.patch ('/groups/updateTime/:id', (req, res) => {
-//     teamUpModule.updateTime (req, res);
-// });
 
-// app.patch ('/groups/updateLocation/:id', (req, res) => {
-//     teamUpModule.updateLocation (req, res);
-// });
+////////////////// Categories
+app.get ('/categories/getCategories', (req, res) => {
+    teamUpModule.getCategories(req, res);
+});
 
-// app.patch ('/groups/updateGroupName/:id', (req, res) => {
-//     teamUpModule.updateGroupName (req, res);
-// });
 
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);
