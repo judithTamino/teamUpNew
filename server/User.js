@@ -43,6 +43,8 @@ const User = mongoose.model("users", UserSchema);
 const Group = mongoose.model("groups", GroupSchema);
 const Categories = mongoose.model("categories", CategoriesSchema);
 
+
+
 function upLoadPhoto(req, res) {
   res.status(201).send({
     body: req.body,

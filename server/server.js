@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({
 // Register
 app.post('/users/register', (req, res) => {
     teamUpModule.registration(req, res);
+    // teamUpModule.interestsTOarray(req,res);
 });
 
 // Login
@@ -74,6 +75,8 @@ app.patch ('/groups/editGroup/:id', (req, res) => {
 app.get ('/categories/getCategories', (req, res) => {
     teamUpModule.getCategories(req, res);
 });
+
+
 
 
 app.listen(PORT, () => {
