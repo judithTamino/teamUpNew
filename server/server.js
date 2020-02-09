@@ -56,7 +56,6 @@ app.get ('/users/userHomePage/:newFileName', (req, res) => {
     res.sendFile (fullPathFileName);
 });
 
-
 ////////////////// Groups
 app.get ('/groups/:userEmail', (req, res) => {
     teamUpModule.getAllManagerGroups(req, res);

@@ -17,6 +17,7 @@ export default class UserHomePage extends Component {
     showFile: false,
     user: [],
     interests: [],
+    redirectToEditProfile: false
   };
 
   loadProfileImage = () => {
@@ -52,7 +53,7 @@ export default class UserHomePage extends Component {
           const reader = new FileReader();
           reader.readAsDataURL(res.data);
           const _this = this;
-          reader.onload = function() {
+          reader.onload = function () {
             const imageDataUrl = reader.result;
             _this.setState({ image: imageDataUrl });
           };
@@ -79,22 +80,22 @@ export default class UserHomePage extends Component {
   };
 
   getIntrests = () => {
-    axios.get (`/users/findUserInterst/${localStorage.user}`)
-    .then(res => {
-      if (res.status === 200) {
-        this.setState ({interests:res.data});
-      } else {
-        throw res.status;
-      }
-    })
-    .catch (err => {
-      throw err;
-    });
+    axios.get(`/users/findUserInterst/${localStorage.user}`)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ interests: res.data });
+        } else {
+          throw res.status;
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
   };
 
   isThereProfileImage = (image) => {
     if (image !== '') {
-       this.setState ({newFilename:image});
+      this.setState({ newFilename: image });
     }
   }
 
@@ -118,15 +119,20 @@ export default class UserHomePage extends Component {
     this.setState({ showFile: false });
   };
 
+
+
   render() {
     if (this.state.flag) {
       return <Redirect to="/createGroup" />;
     }
-    
+    if (this.state.redirectToEditProfile) {
+      return <Redirect to="/editprofile" />;
+    }
+
     return (
       <div className="userHamePage">
         {this.state.user.map((user1, i) => {
-         
+
           return (
             <div key={i}>
               <div className="PersonalInfo">
@@ -156,8 +162,8 @@ export default class UserHomePage extends Component {
                   {!this.state.showFile ? (
                     <MdAccountBox className="userProfileIcon" />
                   ) : (
-                    <img src={this.state.image} alt="profile" />
-                  )}
+                      <img src={this.state.image} alt="profile" />
+                    )}
                 </div>
 
                 <div
@@ -202,12 +208,15 @@ export default class UserHomePage extends Component {
                 ) : null}
                 <div>
                   <h6>Intrests:</h6>
-                  <span>{this.state.interests.map ((interest, i) => {
+                  <span>{this.state.interests.map((interest, i) => {
                     return (
-                      <span key = {i}>{interest} </span>
+                      <span key={i}>{interest} </span>
                     )
                   })}</span>
                 </div>
+                <span onClick={() => {
+                  this.setState({ redirectToEditProfile: true })
+                }}>Edit profile</span>
               </div>
 
               <div>
