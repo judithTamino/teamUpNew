@@ -16,7 +16,7 @@ export default class UserHomePage extends Component {
     newFilename: "",
     showFile: false,
     user: [],
-    interests: []
+    interests: [],
   };
 
   loadProfileImage = () => {

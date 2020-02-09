@@ -3,13 +3,9 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import "./style/EditGroup.css";
 
-import DatePicker from "react-datepicker";
 import moment from "moment";
-import TimePicker from "react-time-picker";
 
-import 'react-datepicker/dist/react-datepicker.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {FaRegCalendar, FaRegClock, FaArrowRight, FaLocationArrow} from "react-icons/fa";
+import {FaRegCalendar} from "react-icons/fa";
 
 export default class EditGroup extends Component {
   oldMeetingDate = moment (this.props.location.state.editGroup.date).format ();

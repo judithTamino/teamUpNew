@@ -135,6 +135,20 @@ function getAllManagerGroups(req, res) {
   );
 }
 
+function getGroupByCategory(req, res) {
+  Group.find (
+    {
+      category:req.params.categoryId
+    }, function (err, groups) {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        res.status(200).send(groups);
+      }
+    }
+  );
+}
+
 function createGroup(req, res) {
   const group = req.body;
   const groupObj = new Group({
@@ -233,6 +247,45 @@ function getCategories (req, res) {
   });
 }
 
+function findCategoryById (req, res) {
+  Categories.findOne (
+    {
+      _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+    }, function (err, category) {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        res.status(200).send(category);
+      }
+    }
+  );
+}
+
+// function updateGroupsCategories (req, res) {
+//   // const categoryId = {
+//   //   _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+//   // };
+
+//   const categoryName = {
+//     name: req.params.name
+//   };
+
+
+//   const groupIdArr = {
+//     $set: {
+//       groups: req.body
+//     }
+//   };
+
+//   Categories.updateOne (categoryName, groupIdArr, err => {
+//     if (err) {
+//       res.status(404).send(err);
+//     } else {
+//       res.sendStatus(200);
+//     }
+//   });
+// }
+
 module.exports.registration = registration;
 module.exports.login = login;
 module.exports.createGroup = createGroup;
@@ -243,4 +296,7 @@ module.exports.deleteGroup = deleteGroup;
 module.exports.editGroup = editGroup;
 module.exports.findUserInterst=findUserInterst;
 module.exports.getCategories=getCategories;
+module.exports.getGroupByCategory=getGroupByCategory;
+module.exports.findCategoryById=findCategoryById;
+// module.exports.updateGroupsCategories = updateGroupsCategories;
 

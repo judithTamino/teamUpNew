@@ -97,7 +97,6 @@ export default class Register extends Component {
   render() {
     const disabled = this.state.password !== this.state.confirmedPass;
 
-<<<<<<< HEAD
     if (this.state.redirectTOhome) {
       return <Redirect to="/welcome"/>
     }
@@ -105,15 +104,6 @@ export default class Register extends Component {
       alert('user alrady exist, please login');
       return <Redirect to="/login/" />
     }
-=======
-    // if (this.state.redirectTOhome) {
-    //   return <Redirect to="/" />
-    // }
-    // if (this.state.isError) {
-    //   alert('user alrady exist, please login');
-    //   return <Redirect to="/login/" />
-    // }
->>>>>>> 76f65922c6aeae135048835a0bfb749bf6e9228b
 
     return (
       <div className="registerComponent">

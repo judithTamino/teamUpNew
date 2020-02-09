@@ -15,7 +15,7 @@ export default class DisplayManagerGroups extends Component {
             redirectToEditGroup: false,
             managerGroupsArr:[],
             groupForEdit:[],
-            id: ''
+            id: '',
         }
     }
 

@@ -70,14 +70,23 @@ app.patch ('/groups/editGroup/:id', (req, res) => {
     teamUpModule.editGroup (req, res);
 });
 
+app.get ('/groups/getGroupByCategory/:categoryId', (req, res) => {
+    teamUpModule.getGroupByCategory (req, res);
+});
+
 
 ////////////////// Categories
 app.get ('/categories/getCategories', (req, res) => {
     teamUpModule.getCategories(req, res);
 });
 
+app.get ('/categories/findCategoryById/:id', (req, res) => {
+    teamUpModule.findCategoryById(req, res);
+});
 
-
+// app.patch ('/categories/updateGroupsCategories:id', (req, res) => {
+//     teamUpModule.updateGroupsCategories(req, res);
+// });
 
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);

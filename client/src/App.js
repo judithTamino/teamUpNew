@@ -8,20 +8,11 @@ import Register from './Register';
 import LogIn from './LogIn';
 import CreateGroup from './CreateGroup';
 import UserHomePage from './UserHomePage';
-<<<<<<< HEAD
 import Logout from './Logout';
 import EditGroup from './EditGroup';
+import DisplayGroupsByCategory from './DisplayGroupsByCategory';
 
-class App extends Component {
-  constructor(){
-    super();
-    this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
-      user:{},
-    }
-  }
-=======
-import Logout from './Logout'
+// import Logout from './Logout';
 
 
 
@@ -58,7 +49,6 @@ class App extends Component {
 
 
   temp = '';
->>>>>>> 76f65922c6aeae135048835a0bfb749bf6e9228b
 
   render() {
     return (
@@ -85,38 +75,17 @@ class App extends Component {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={LogIn} />
 
-<<<<<<< HEAD
           <Route exact path='/userHomePage' component={UserHomePage}/>
-=======
-          <Route exact path='/userHomePage' render={
-            () => <UserHomePage getUser={this.state.user} />
-          } />
->>>>>>> 76f65922c6aeae135048835a0bfb749bf6e9228b
           <Route exact path='/logout' component={Logout} />
 
           <Route exact path='/createGroup' component={CreateGroup} />
-<<<<<<< HEAD
           <Route exact path='/editGroup' component={EditGroup}/>
-=======
->>>>>>> 76f65922c6aeae135048835a0bfb749bf6e9228b
+          <Route exact path='/displayGroupsByCategory' component={DisplayGroupsByCategory}/>
         </Switch>
 
       </BrowserRouter>
     );
   }
-<<<<<<< HEAD
-=======
-
-  componentDidMount() {
-    axios.get('/users/userHomePage')
-      .then(res => {
-
-        let myUser = res.data.filter(user1 => user1.email === localStorage.user)
-        this.setState({ user: myUser[0] })
-      })
-      .catch(err => { console.log(`error code : ${err}`); });
-  }
->>>>>>> 76f65922c6aeae135048835a0bfb749bf6e9228b
 }
 
 

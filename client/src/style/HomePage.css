@@ -1,0 +1,10 @@
+.categoryDiaplay {
+    float: left;
+    width: 16%;
+    height: 100px;
+    padding: 0 5px;
+}
+
+.pageDescription {
+    display: block;
+}

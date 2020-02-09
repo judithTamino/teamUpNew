@@ -18,25 +18,25 @@ export default class CreateGroup extends Component {
 
   state = {
     groupManager: this.user,
-    groupName: "",
-    street: "",
-    streetNumber: "",
-    city: "",
+    groupName:"",
+    street:"",
+    streetNumber:"",
+    city:"",
     date: new Date(),
-    beginningTime: "",
-    endingTime: "",
-    category: "",
-    topic: "",
-    description: "",
+    beginningTime:"",
+    endingTime:"",
+    category:"",
+    topic:"",
+    description:"",
     joiningDate: new Date (),
-    status: "open",
+    status:"open",
 
     isAllLetter: true, isSelectCategory: false, isValidDate: true,
     isValidEndTime: true, isValidStartTime: true, 
 
     redirectToUserHomePage: false,
 
-    arrCategories: []
+    arrCategories:[],
   };
   error = { border: "1px solid red" };
   timeError = {color: "red"};
@@ -246,13 +246,13 @@ export default class CreateGroup extends Component {
             <div>
               <select
                 onChange={e => {
-                  this.setState({ category: e.target.value });
+                  this.setState({ category: e.target.value});
                   this.selectCategory(e);
                 }}
               >
                 <option disabled > Select category</option>
                 {this.state.arrCategories.map((cat, i) => {
-                  return <option key={i}>{cat.name}</option>;
+                  return <option value={cat._id} key={i}>{cat.name}</option>;
                 })}
               </select>
             </div>
