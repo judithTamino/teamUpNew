@@ -14,7 +14,7 @@ import DisplayGroupsByCategory from './DisplayGroupsByCategory';
 
 class Navbar extends Component {
 
-    logOut(){
+    logOut =() =>{
         localStorage.removeItem('user')
         this.props.history.push('/');
     }
@@ -33,7 +33,7 @@ class Navbar extends Component {
         <div className="App">
             <div className="upperMenu">
                 <Link to='/' id="logoLink">TeamUp</Link>
-                <Link to='' onClick = {this.logOut.bind(this)} className="logLink">Log out</Link>
+                <Link to='' onClick = {this.logOut} className="logLink">Log out</Link>
                 <Link to='/createGroup' id="registerLink">Create Group</Link>
                 <Link to = '/userHomePage' id="profileLink">Profile</Link>
             </div>
