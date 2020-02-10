@@ -15,13 +15,8 @@ import GroupInfo from './GroupInfo';
 
 class Navbar extends Component {
 
-<<<<<<< HEAD
     logOut(){
         localStorage.clear();
-=======
-    logOut =() =>{
-        localStorage.removeItem('user')
->>>>>>> 26247216762bb58b7209a182db309f2a0e865419
         this.props.history.push('/');
     }
 
@@ -39,7 +34,7 @@ class Navbar extends Component {
         <div className="App">
             <div className="upperMenu">
                 <Link to='/' id="logoLink">TeamUp</Link>
-                <Link to='' onClick = {this.logOut} className="logLink">Log out</Link>
+                <Link to='' onClick = {this.logOut.bind(this)} className="logLink">Log out</Link>
                 <Link to='/createGroup' id="registerLink">Create Group</Link>
                 <Link to = '/userHomePage' id="profileLink">Profile</Link>
             </div>
@@ -72,10 +67,10 @@ class Navbar extends Component {
     }
 
     navController = () => {
-        if (localStorage.user) {
-            return this.loggedIn;
+        if ("user" in localStorage) {
+            return this.loggedIn; 
         }
-        else {
+        else { 
             return this.generalPage;
         }
     }

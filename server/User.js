@@ -182,15 +182,16 @@ function updateGroupsMembers (req, res) {
   const groupId = {
     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
   };
-  const newMembersArr = {
-    $set: {members:req.body}
-  }
-
-  Group.updateOne (groupId, newMembersArr, err => {
+  const newMember = {
+    $push: {members:req.body}
+  };
+  
+  Group.updateOne (groupId, newMember, (err, obj) => {
     if (err) {
       res.status(404).send(err);
     } else {
-      res.sendStatus(200);
+      console.log (obj)
+      res.status(200).send(200);
     }
   } );
 }
