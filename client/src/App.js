@@ -11,8 +11,13 @@ import "./App.css";
 // import Logout from './Logout';
 // import EditGroup from './EditGroup';
 // import DisplayGroupsByCategory from './DisplayGroupsByCategory';
+<<<<<<< HEAD
 import Navbar from "./Navbar";
 import { BrowserRouter} from "react-router-dom";
+=======
+import Navbar from './Navbar'
+import { BrowserRouter } from 'react-router-dom';
+>>>>>>> 26247216762bb58b7209a182db309f2a0e865419
 
 // import Logout from './Logout';
 
@@ -48,9 +53,15 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
+<<<<<<< HEAD
         <div>
           <Navbar/>
         </div>
+=======
+      <div>
+        <Navbar/>
+      </div>
+>>>>>>> 26247216762bb58b7209a182db309f2a0e865419
       </BrowserRouter>
       // // <BrowserRouter>
 

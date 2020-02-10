@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   joiningDate: String,
   interests: Array,
   groups: Array,
+  joiningDate: String,
   profileImage: String
 });
 
