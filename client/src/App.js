@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
+// import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 
+<<<<<<< HEAD
 import HomePage from './HomePage.js';
 import Register from './Register';
 import LogIn from './LogIn';
@@ -12,6 +13,18 @@ import Logout from './Logout';
 import EditGroup from './EditGroup';
 import DisplayGroupsByCategory from './DisplayGroupsByCategory';
 import GroupInfo from './GroupInfo';
+=======
+// import HomePage from './HomePage.js';
+// import Register from './Register';
+// import LogIn from './LogIn';
+// import CreateGroup from './CreateGroup';
+// import UserHomePage from './UserHomePage';
+// import Logout from './Logout';
+// import EditGroup from './EditGroup';
+// import DisplayGroupsByCategory from './DisplayGroupsByCategory';
+import Navbar from './Navbar'
+import { BrowserRouter } from 'react-router-dom';
+>>>>>>> 8d2d3c3b3fd68a3a749d916c7de10922ad6fc94c
 
 // import Logout from './Logout';
 
@@ -54,6 +67,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
+<<<<<<< HEAD
 
         <div className="App">
           {/* {!this.state.loggedIn ? <div className="upperMenu">
@@ -85,8 +99,45 @@ class App extends Component {
           <Route exact path='/groupInfo' component={GroupInfo}/>
         </Switch>
 
+=======
+      <div>
+        <Navbar/>
+      </div>
+>>>>>>> 8d2d3c3b3fd68a3a749d916c7de10922ad6fc94c
       </BrowserRouter>
-    );
+      // // <BrowserRouter>
+
+      // //   <div className="App">
+      //     {/* {!this.state.loggedIn ? <div className="upperMenu">
+      //       <Link to='/' id="logoLink">TeamUp</Link>
+      //       <Link to='/login' className="logLink">Log in</Link>
+      //       <Link to='/register' id="registerLink">Register</Link>
+      //     </div> : <div className="upperMenu">
+      //       <Link to='/' id="logoLink">TeamUp</Link>
+      //       <Link to = '/logout' className="logLink">Log out</Link>
+      //       </div>} */}
+      //     {/* <div className="upperMenu">
+      //       <Link to='/' id="logoLink">TeamUp</Link>
+      //       <Link to='/login' className="logLink">Log in</Link>
+      //       <Link to='/register' id="registerLink">Register</Link>
+      //     </div>
+      //   </div>
+
+      //   <Switch>
+      //     <Route exact path='/' component={HomePage} />
+      //     <Route exact path='/register' component={Register} />
+      //     <Route exact path='/login' component={LogIn} />
+
+      //     <Route exact path='/userHomePage' component={UserHomePage}/>
+      //     <Route exact path='/logout' component={Logout} />
+
+      //     <Route exact path='/createGroup' component={CreateGroup} />
+      //     <Route exact path='/editGroup' component={EditGroup}/>
+      //     <Route exact path='/displayGroupsByCategory' component={DisplayGroupsByCategory}/>
+      //   </Switch>
+
+      // </BrowserRouter> */}
+    )
   }
 }
 

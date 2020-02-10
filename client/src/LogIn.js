@@ -30,7 +30,6 @@ export default class LogIn extends Component {
         console.log(`error code : ${res.status}`);
         
       }
-
     })
     .catch(err =>{
       this.setState({isError:true})
