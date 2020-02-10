@@ -21,10 +21,9 @@ export default class LogIn extends Component {
       password: this.state.password
     })
     .then(res =>{
-      // console.log(res);
       if (res.status === 200){
-        this.setState({redirectTOhome:true});
         localStorage.setItem ('user', this.state.email);
+        this.setState({redirectTOhome:true});
       }else{
         this.setState({isError:true})
         console.log(`error code : ${res.status}`);
@@ -41,7 +40,7 @@ export default class LogIn extends Component {
     const disabled = !this.state.email || !this.state.password
 
     if(this.state.redirectTOhome){
-      return <Redirect to = "/userHomePage"/>
+      return <Redirect to = "/"/>
     }
     return (
       <div> 

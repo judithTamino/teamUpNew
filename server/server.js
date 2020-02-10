@@ -81,6 +81,10 @@ app.get('/groups/findMembersInGroup/:id', (req, res) => {
     teamUpModule.findMembersInGroup(req, res);
 });
 
+app.patch('/groups/updateGroupsMembers/:id', (req, res) => {
+    teamUpModule.updateGroupsMembers(req, res);
+});
+
 
 ////////////////// Categories
 app.get ('/categories/getCategories', (req, res) => {

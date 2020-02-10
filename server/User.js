@@ -177,31 +177,21 @@ function findMembersInGroup(req, res) {
   )
 }
 
-function updateGroupMembers(req, res) {
-  // const groupId = {
-  //   _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-  // };
+function updateGroupsMembers (req, res) {
+  const groupId = {
+    _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+  };
+  const newMembersArr = {
+    $set: {members:req.body}
+  }
 
-  // const newValues = {
-  //     $set: {
-  //         date: req.body.date,
-  //         startTime: req.body.startTime,
-  //         endTime: req.body.endTime,
-  //         street: req.body.street,
-  //         streetNumber: req.body.streetNumber,
-  //         city: req.body.city,
-  //         groupName: req.body.groupName
-  //     }
-  // };
-
-  // Group.updateOne (groupId, newValues, err => {
-  //     if (err) {
-  //         res.status(404).send(err);
-  //     } else {
-  //         res.sendStatus(200);
-  //     }
-  // });
-
+  Group.updateOne (groupId, newMembersArr, err => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.sendStatus(200);
+    }
+  } );
 }
 
 function createGroup(req, res) {
@@ -261,7 +251,6 @@ function registration(req, res) {
 
 function login(req, res) {
   const user = req.body;
-
   User.findOne(
     {
       email: user.email,
@@ -330,4 +319,5 @@ module.exports.getGroupByCategory=getGroupByCategory;
 module.exports.findCategoryById=findCategoryById;
 module.exports.findGroupById=findGroupById;
 module.exports.findMembersInGroup=findMembersInGroup;
+module.exports.updateGroupsMembers=updateGroupsMembers;
 

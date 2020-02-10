@@ -36,12 +36,26 @@ export default class GroupInfo extends Component {
     }
 
     joinGroup = () => {
+
         let tempMembersInGroup = [...this.state.membersInGroup];
         tempMembersInGroup.push (localStorage.user);
         this.setState ({membersInGroup:tempMembersInGroup});
+
+        // this.updateGroupsMembers ();
     }
 
     updateGroupsMembers = () => {
+        axios.patch(`/groups/updateGroupsMembers/${this.props.location.state.id}`)
+        .then(res => {
+            if (res.status === 200) {
+                console.log (res);
+            } else {
+                throw res.status;
+            }
+
+        }).catch(err => {
+            console.log (err);
+        });
         
     }
 
@@ -87,7 +101,11 @@ export default class GroupInfo extends Component {
                     <p>{this.state.group.description}</p>
                 </div>
                 <div className="col-4">
-                    <button disabled = {disabled}>Join Group</button>
+                    <button disabled = {disabled} onClick = {() => 
+                        {
+                            this.joinGroup();
+                        }
+                    }>Join Group</button>
                 </div>
             </div>
         </div>
