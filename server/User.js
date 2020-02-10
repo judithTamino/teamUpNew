@@ -31,7 +31,7 @@ const GroupSchema = new mongoose.Schema({
   topic: String,
   description: String,
   joiningDate: String,
-  status: String
+  groupStatus: String
 });
 
 const CategoriesSchema = new mongoose.Schema ({
@@ -149,6 +149,61 @@ function getGroupByCategory(req, res) {
   );
 }
 
+function findGroupById(req, res) {
+  Group.findOne (
+    {
+      _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+    }, function (err, group) {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        res.status(200).send(group);
+      }
+    }
+  );
+}
+
+function findMembersInGroup(req, res) {
+  Group.findOne (
+    {
+      _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+    }, function (err, group) {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        res.status(200).send(group.members);
+      }
+    }
+  )
+}
+
+function updateGroupMembers(req, res) {
+  // const groupId = {
+  //   _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+  // };
+
+  // const newValues = {
+  //     $set: {
+  //         date: req.body.date,
+  //         startTime: req.body.startTime,
+  //         endTime: req.body.endTime,
+  //         street: req.body.street,
+  //         streetNumber: req.body.streetNumber,
+  //         city: req.body.city,
+  //         groupName: req.body.groupName
+  //     }
+  // };
+
+  // Group.updateOne (groupId, newValues, err => {
+  //     if (err) {
+  //         res.status(404).send(err);
+  //     } else {
+  //         res.sendStatus(200);
+  //     }
+  // });
+
+}
+
 function createGroup(req, res) {
   const group = req.body;
   const groupObj = new Group({
@@ -165,7 +220,7 @@ function createGroup(req, res) {
     topic: group.topic,
     description: group.description,
     joiningDate: group.joiningDate,
-    status: group.state
+    groupStatus: group.groupStatus
   });
 
   groupObj.save();
@@ -261,31 +316,6 @@ function findCategoryById (req, res) {
   );
 }
 
-// function updateGroupsCategories (req, res) {
-//   // const categoryId = {
-//   //   _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-//   // };
-
-//   const categoryName = {
-//     name: req.params.name
-//   };
-
-
-//   const groupIdArr = {
-//     $set: {
-//       groups: req.body
-//     }
-//   };
-
-//   Categories.updateOne (categoryName, groupIdArr, err => {
-//     if (err) {
-//       res.status(404).send(err);
-//     } else {
-//       res.sendStatus(200);
-//     }
-//   });
-// }
-
 module.exports.registration = registration;
 module.exports.login = login;
 module.exports.createGroup = createGroup;
@@ -298,5 +328,6 @@ module.exports.findUserInterst=findUserInterst;
 module.exports.getCategories=getCategories;
 module.exports.getGroupByCategory=getGroupByCategory;
 module.exports.findCategoryById=findCategoryById;
-// module.exports.updateGroupsCategories = updateGroupsCategories;
+module.exports.findGroupById=findGroupById;
+module.exports.findMembersInGroup=findMembersInGroup;
 

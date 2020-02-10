@@ -93,7 +93,7 @@ export default class EditGroup extends Component {
             this.setState({ isUpdate: true });
             setTimeout(() => {
               this.setState({ isUpdate: false });
-            }, 1000);
+            }, 5000);
           } else {
             console.log("bad");
           }

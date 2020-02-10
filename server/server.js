@@ -74,6 +74,14 @@ app.get ('/groups/getGroupByCategory/:categoryId', (req, res) => {
     teamUpModule.getGroupByCategory (req, res);
 });
 
+app.get ('/groups/findGroupById/:id', (req, res) => {
+    teamUpModule.findGroupById(req, res);
+});
+
+app.get('/groups/findMembersInGroup/:id', (req, res) => {
+    teamUpModule.findMembersInGroup(req, res);
+});
+
 
 ////////////////// Categories
 app.get ('/categories/getCategories', (req, res) => {
@@ -84,9 +92,6 @@ app.get ('/categories/findCategoryById/:id', (req, res) => {
     teamUpModule.findCategoryById(req, res);
 });
 
-// app.patch ('/categories/updateGroupsCategories:id', (req, res) => {
-//     teamUpModule.updateGroupsCategories(req, res);
-// });
 
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);

@@ -29,7 +29,7 @@ export default class CreateGroup extends Component {
     topic:"",
     description:"",
     joiningDate: new Date (),
-    status:"open",
+    groupStatus:"open",
 
     isAllLetter: true, isSelectCategory: false, isValidDate: true,
     isValidEndTime: true, isValidStartTime: true, 
@@ -59,7 +59,7 @@ export default class CreateGroup extends Component {
             topic: this.state.topic,
             description: this.state.description,
             joiningDate: this.state.joiningDate,
-            status: this.state.status
+            groupStatus: this.state.groupStatus
         })
         .then (res => {
           if (res.status === 201) {

@@ -11,6 +11,7 @@ import UserHomePage from './UserHomePage';
 import Logout from './Logout';
 import EditGroup from './EditGroup';
 import DisplayGroupsByCategory from './DisplayGroupsByCategory';
+import GroupInfo from './GroupInfo';
 
 // import Logout from './Logout';
 
@@ -81,6 +82,7 @@ class App extends Component {
           <Route exact path='/createGroup' component={CreateGroup} />
           <Route exact path='/editGroup' component={EditGroup}/>
           <Route exact path='/displayGroupsByCategory' component={DisplayGroupsByCategory}/>
+          <Route exact path='/groupInfo' component={GroupInfo}/>
         </Switch>
 
       </BrowserRouter>

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
+import {MdInfo, MdAddCircle} from "react-icons/md";
 import axios from "axios";
 
 export default class DisplayGroupsByCategory extends Component {
@@ -6,6 +8,7 @@ export default class DisplayGroupsByCategory extends Component {
         categoryId:this.props.location.state.id,
         category:[],
         groups:[],
+        redirectToGroupInfo:false,
     }
 
     getSelectCategory = () => {
@@ -36,6 +39,12 @@ export default class DisplayGroupsByCategory extends Component {
     }
 
   render() {
+      if (this.state.redirectToGroupInfo) {
+          return <Redirect to = {{
+              pathname:'/groupInfo',
+              state:{id:localStorage.groupId}
+          }}/>
+      }
     return (
         <div> 
             <h1>Explore {this.state.category.name}</h1>
@@ -46,6 +55,17 @@ export default class DisplayGroupsByCategory extends Component {
                         <h5>{group.groupName}</h5>
                         <h6>{group.members.length} members</h6>
                         <p>{group.description}</p>
+                        <div>
+                            <div onClick = {() => {
+                                localStorage.setItem ('groupId', group._id);
+                                this.setState ({redirectToGroupInfo:true});
+                            }}>
+                                <MdInfo/> <span>Info</span>
+                            </div>
+                            <div>
+                                <MdAddCircle/> <span>Join</span>
+                            </div>  
+                        </div>
                     </div>
                 )
                 

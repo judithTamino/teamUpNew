@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import DisplayManagerGroups from "./DisplayManagerGroups";
 import axios from "axios";
+import moment from "moment";
 
 import "./style/UserHomePage.css";
 import { MdAccountBox } from "react-icons/md";
@@ -141,7 +142,7 @@ export default class UserHomePage extends Component {
 
                 <div className="memberSince float-left">
                   <h6>TeamUp member since:</h6>
-                  <span>{user1.joiningDate}</span>
+                  <span>{ moment(user1.joiningDate).format('MMMM Do YYYY')}</span>
                 </div>
 
                 <div className="clearfix" />
@@ -212,7 +213,7 @@ export default class UserHomePage extends Component {
 
               <div>
                 <div>
-                  <h2>Member of {user1.groups.length - 1} groups</h2>
+                  <h2>Member of {user1.groups.length} groups</h2>
                 </div>
                 <DisplayManagerGroups />
               </div>
