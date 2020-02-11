@@ -16,6 +16,7 @@ export default class Register extends Component {
       confirmedPass: '',
       interests: [],
       groups: [],
+      joiningDate: new Date ().toLocaleString(),
       redirectTOhome: false, isError: false,
       sportsFitnes: false, learning: false,
       foodDrinks: false, music: false,
@@ -74,12 +75,13 @@ export default class Register extends Component {
       country: this.state.country,
       interests:this.tempInterests,
       groups: this.state.groups,
+      joiningDate:this.state.joiningDate
     })
       .then(res => {
         console.log(res);
         if (res.status === 201) {
           this.setState({ redirectTOhome: true });
-          console.log(res.status);
+          console.log(res.status);          
         } else {
           this.setState({ isError: true })
           console.log(`error code : ${res.status}`);

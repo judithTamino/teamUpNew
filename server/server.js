@@ -91,7 +91,6 @@ app.get ('/categories/findCategoryById/:id', (req, res) => {
     teamUpModule.findCategoryById(req, res);
 });
 
-
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);
 });

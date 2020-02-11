@@ -21,10 +21,12 @@ export default class LogIn extends Component {
       password: this.state.password
     })
     .then(res =>{
-      // console.log(res);
+      console.log(res);
       if (res.status === 200){
         this.setState({redirectTOhome:true});
         localStorage.setItem ('user', this.state.email);
+        console.log('hhhhhh');
+        
       }else{
         this.setState({isError:true})
         console.log(`error code : ${res.status}`);
@@ -49,7 +51,7 @@ export default class LogIn extends Component {
         Email : <input type = "email" onChange = {event => this.setState({email: event.target.value})}></input> <br/>
         Password : <input type = "password" onChange = {event => this.setState({password: event.target.value})}></input> <br/>
         {this.state.isError ? <p style = {{color : 'red'}}>Login error</p> : null}
-        <button disabled = {disabled} onClick = {this.login}>Login</button>
+        <button disabled = {disabled} onClick = {this.login }>Login</button>
       </div>
     );
   }

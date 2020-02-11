@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema({
   joiningDate: String,
   interests: Array,
   groups: Array,
-  joiningDate: String,
   profileImage: String
 });
 
@@ -75,7 +74,7 @@ function findUserByEmail(req, res) {
     if (err) {
       res.status(404).send(err);
     } else {
-      res.status(200).send(user);
+      res.send(user);
     }
   });
 }
@@ -287,7 +286,7 @@ function findUserInterst (req, res) {
       if (err) {
         res.status(404).send(err);
       } else {
-        res.status(200).send(arrIntrests.interests);
+        res.send(arrIntrests.interests);
       }
     }
   );
@@ -331,4 +330,3 @@ module.exports.getGroupByCategory=getGroupByCategory;
 module.exports.findCategoryById=findCategoryById;
 module.exports.findGroupById=findGroupById;
 module.exports.findMembersInGroup=findMembersInGroup;
-
