@@ -6,7 +6,6 @@ import axios from "axios";
 
 export default class HomePage extends Component {
     state = {
-        redirectToRegister:false,
         arrCategories: [],
         redirectToCategoryPage:false,
         category:[],
@@ -27,10 +26,6 @@ export default class HomePage extends Component {
     }
 
     render() {
-        if (this.state.redirectToRegister) {
-            return <Redirect to = "/register"/>
-        }
-
         if (this.state.redirectToCategoryPage) {
             return <Redirect to = {{
                 pathname:'/displayGroupsByCategory',
@@ -43,11 +38,6 @@ export default class HomePage extends Component {
                 <div>
                     <h1>The real world is calling</h1>
                     <h5>Join a local group to meet people, try somthing new, or do more of what you love</h5>
-                    <button onClick = {
-                        () => {
-                            this.setState ({redirectToRegister:true});
-                        }
-                    }>Join TeamUp</button>
                 </div>
 
                 <div>

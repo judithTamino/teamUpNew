@@ -178,6 +178,21 @@ function findMembersInGroup(req, res) {
   )
 }
 
+function isMemberInGroup(req, res) {
+  console.log (req.body);
+  Group.find(
+    {_id: new mongoose.Types.ObjectId(`${req.params.id}`)}, 
+    {members:{$elemMatch: {members:req.body}}}, 
+    function (err, member) {
+      if (err) {
+        res.status(404).send(err)
+      } else {
+        res.status(200).send(member);
+      }
+    }
+  )
+}
+
 function updateGroupsMembers (req, res) {
   const groupId = {
     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
@@ -185,13 +200,12 @@ function updateGroupsMembers (req, res) {
   const newMember = {
     $push: {members:req.body}
   };
-  
-  Group.updateOne (groupId, newMember, (err, obj) => {
+
+  Group.updateOne (groupId, newMember, (err) => {
     if (err) {
-      res.status(404).send(err);
+      res.sendStatus(404);
     } else {
-      console.log (obj)
-      res.status(200).send(200);
+      res.sendStatus(200);
     }
   } );
 }
@@ -322,4 +336,5 @@ module.exports.findCategoryById=findCategoryById;
 module.exports.findGroupById=findGroupById;
 module.exports.findMembersInGroup=findMembersInGroup;
 module.exports.updateGroupsMembers=updateGroupsMembers;
+module.exports.isMemberInGroup=isMemberInGroup;
 
