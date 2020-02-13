@@ -71,7 +71,7 @@ export default class Register extends Component {
       password: this.state.password,
       confirmedPass: this.state.confirmedPass,
       city: this.state.city,
-      country: this.state.country,
+      state: this.state.country,
       interests:this.tempInterests,
       groups: this.state.groups,
     })

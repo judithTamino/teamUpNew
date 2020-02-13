@@ -2,8 +2,15 @@ const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/TeamUp", {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 });
+
+// const multer = require('multer');
+// const uploadDirectory = 'profileImg/';
+// var upload = multer({
+//     dest: uploadDirectory
+// });
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -35,8 +42,8 @@ const GroupSchema = new mongoose.Schema({
   groupStatus: String
 });
 
-const CategoriesSchema = new mongoose.Schema ({
-  name:String,
+const CategoriesSchema = new mongoose.Schema({
+  name: String,
   groups: Array
 });
 
@@ -44,34 +51,63 @@ const User = mongoose.model("users", UserSchema);
 const Group = mongoose.model("groups", GroupSchema);
 const Categories = mongoose.model("categories", CategoriesSchema);
 
+// const storage = multer.diskStorage({
+//   destination: uploadDirectory,
+//   filename: function (req, file, cb) {
+//       cb(null, Date.now() + file.originalname)
+//   }
+// })
+// // const upload = multer({
+// //   storage: storage
+// // });
 
+// function upLoadPhoto(req, res) {
+//   res.status(201).send({
+//     body: req.body,
+//     file: req.file
+//   });
 
-function upLoadPhoto(req, res) {
-  res.status(201).send({
-    body: req.body,
-    file: req.file
-  });
+//   const userImage = {
+//     $set: {
+//       profileImage: req.file.filename
+//     }
+//   };
+//   const userEmail = {
+//     email: req.body.email
+//   };
 
-  const userImage = {
-    $set: {
-      profileImage: req.file.filename
-    }
-  };
-  const userEmail = {
-    email: req.body.email
-  };
+//   User.updateOne(userEmail, userImage, err => {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.status(200);
+//     }
+//   });
+// }
 
-  User.updateOne(userEmail, userImage, err => {
+function updateStatus(req, res) {
+  Group.findOneAndUpdate({_id: new mongoose.Types.ObjectId(`${req.params.id}`)}, {groupStatus:req.params.status},
+  function (err) {
     if (err) {
-      res.send(err);
+      res.status(404).send(err)
     } else {
-      res.status(200);
+      res.sendStatus(200);
+    }
+  });
+}
+
+function findUserGroups(req, res) {
+  User.findOneAndUpdate({ email: req.params.userEmail }, {$push:{groups:req.params.groupId}}, function(err) {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.sendStatus(200);
     }
   });
 }
 
 function findUserByEmail(req, res) {
-  User.find ({email: req.params.userEmail}, function (err, user) {
+  User.find({ email: req.params.userEmail }, function(err, user) {
     if (err) {
       res.status(404).send(err);
     } else {
@@ -86,23 +122,23 @@ function editGroup(req, res) {
   };
 
   const newValues = {
-      $set: {
-          date: req.body.date,
-          startTime: req.body.startTime,
-          endTime: req.body.endTime,
-          street: req.body.street,
-          streetNumber: req.body.streetNumber,
-          city: req.body.city,
-          groupName: req.body.groupName
-      }
+    $set: {
+      date: req.body.date,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      street: req.body.street,
+      streetNumber: req.body.streetNumber,
+      city: req.body.city,
+      groupName: req.body.groupName
+    }
   };
 
-  Group.updateOne (groupId, newValues, err => {
-      if (err) {
-          res.status(404).send(err);
-      } else {
-          res.sendStatus(200);
-      }
+  Group.updateOne(groupId, newValues, err => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.sendStatus(200);
+    }
   });
 }
 
@@ -137,10 +173,11 @@ function getAllManagerGroups(req, res) {
 }
 
 function getGroupByCategory(req, res) {
-  Group.find (
+  Group.find(
     {
-      category:req.params.categoryId
-    }, function (err, groups) {
+      category: req.params.categoryId
+    },
+    function(err, groups) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -151,10 +188,11 @@ function getGroupByCategory(req, res) {
 }
 
 function findGroupById(req, res) {
-  Group.findOne (
+  Group.findOne(
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-    }, function (err, group) {
+    },
+    function(err, group) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -165,49 +203,35 @@ function findGroupById(req, res) {
 }
 
 function findMembersInGroup(req, res) {
-  Group.findOne (
+  Group.findOne(
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-    }, function (err, group) {
+    },
+    function(err, group) {
       if (err) {
         res.status(404).send(err);
       } else {
         res.status(200).send(group.members);
       }
     }
-  )
+  );
 }
 
-function isMemberInGroup(req, res) {
-  console.log (req.body);
-  Group.find(
-    {_id: new mongoose.Types.ObjectId(`${req.params.id}`)}, 
-    {members:{$elemMatch: {members:req.body}}}, 
-    function (err, member) {
-      if (err) {
-        res.status(404).send(err)
-      } else {
-        res.status(200).send(member);
-      }
-    }
-  )
-}
-
-function updateGroupsMembers (req, res) {
+function updateGroupsMembers(req, res) {
   const groupId = {
     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
   };
   const newMember = {
-    $push: {members:req.body}
+    $push: { members: req.body }
   };
 
-  Group.updateOne (groupId, newMember, (err) => {
+  Group.updateOne(groupId, newMember, err => {
     if (err) {
       res.sendStatus(404);
     } else {
       res.sendStatus(200);
     }
-  } );
+  });
 }
 
 function createGroup(req, res) {
@@ -284,21 +308,18 @@ function login(req, res) {
   );
 }
 
-function findUserInterst (req, res) {
-  User.findOne (
-    {email: req.params.userEmail},
-    function (err, arrIntrests) {
-      if (err) {
-        res.status(404).send(err);
-      } else {
-        res.status(200).send(arrIntrests.interests);
-      }
+function findUserInterst(req, res) {
+  User.findOne({ email: req.params.userEmail }, function(err, arrIntrests) {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(arrIntrests.interests);
     }
-  );
+  });
 }
 
-function getCategories (req, res) {
-  Categories.find ((err, categories) =>{
+function getCategories(req, res) {
+  Categories.find((err, categories) => {
     if (err) {
       res.status(404).send(err);
     } else {
@@ -307,11 +328,12 @@ function getCategories (req, res) {
   });
 }
 
-function findCategoryById (req, res) {
-  Categories.findOne (
+function findCategoryById(req, res) {
+  Categories.findOne(
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-    }, function (err, category) {
+    },
+    function(err, category) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -325,16 +347,16 @@ module.exports.registration = registration;
 module.exports.login = login;
 module.exports.createGroup = createGroup;
 module.exports.findUserByEmail = findUserByEmail;
-module.exports.upLoadPhoto = upLoadPhoto;
+// module.exports.upLoadPhoto = upLoadPhoto;
 module.exports.getAllManagerGroups = getAllManagerGroups;
 module.exports.deleteGroup = deleteGroup;
 module.exports.editGroup = editGroup;
-module.exports.findUserInterst=findUserInterst;
-module.exports.getCategories=getCategories;
-module.exports.getGroupByCategory=getGroupByCategory;
-module.exports.findCategoryById=findCategoryById;
-module.exports.findGroupById=findGroupById;
-module.exports.findMembersInGroup=findMembersInGroup;
-module.exports.updateGroupsMembers=updateGroupsMembers;
-module.exports.isMemberInGroup=isMemberInGroup;
-
+module.exports.findUserInterst = findUserInterst;
+module.exports.getCategories = getCategories;
+module.exports.getGroupByCategory = getGroupByCategory;
+module.exports.findCategoryById = findCategoryById;
+module.exports.findGroupById = findGroupById;
+module.exports.findMembersInGroup = findMembersInGroup;
+module.exports.updateGroupsMembers = updateGroupsMembers;
+module.exports.findUserGroups=findUserGroups;
+module.exports.updateStatus=updateStatus;

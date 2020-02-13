@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import DisplayManagerGroups from "./DisplayManagerGroups";
+
 import axios from "axios";
 import moment from "moment";
 
 import "./style/UserHomePage.css";
-import { MdAccountBox } from "react-icons/md";
-import { MdClose } from "react-icons/md";
+import DisplayGroupsUserIsMemberIn from "./DisplayGroupsUserIsMemberIn";
+// import { MdAccountBox } from "react-icons/md";
+// import { MdClose } from "react-icons/md";
 
 export default class UserHomePage extends Component {
   constructor (props) {
@@ -22,20 +24,21 @@ export default class UserHomePage extends Component {
       user: [],
       interests: [],
       redirectToEditProfile: false,
-      users:localStorage.user
+      users:localStorage.user,
+
+      uploading:false,
+      images:[],
     };
   }
 
-
   loadProfileImage = () => {
     let fromData = new FormData();
-    const config = { headers: { "content-type": "multipart/from-data" } };
-
+    
     fromData.append("imgFile", this.state.file);
     fromData.append("email", localStorage.user);
     if (this.state.file !== "") {
       axios
-        .post("/users/userHomePage", fromData, config)
+        .post("/users/userHomePage", fromData)
         .then(res => {
           if (res.status === 201) {
             this.setState({ newFilename: res.data.file.filename });
@@ -166,7 +169,7 @@ export default class UserHomePage extends Component {
                 </div>
 
                 <div className="profileImgAndIntrests col-3">
-                  <div>
+                  {/* <div>
                     {!this.state.showFile ? (
                       <MdAccountBox className="userProfileIcon" />
                     ) : (
@@ -191,7 +194,7 @@ export default class UserHomePage extends Component {
                           this.setState({ file: event.target.files[0] })
                         }
                         onClick={() => {
-                          this.displayImg();
+                          // this.displayImg();
                         }}
                       />
 
@@ -213,12 +216,13 @@ export default class UserHomePage extends Component {
                         </button>
                       </div>
                     </div>
-                  ) : null}
+                  ) : null} */}
                   <div>
                     <h6>Intrests:</h6>
                     <span>{this.state.interests.map((interest, i) => {
                       return (
-                        <span key={i}>{interest} </span>
+                        <span key={i}>{interest} <span>,</span>
+                        </span>
                       )
                     })}</span>
                   </div>
@@ -231,6 +235,7 @@ export default class UserHomePage extends Component {
               <div>
                 <div>
                   <h2>Member of {user1.groups.length} groups</h2>
+                  <DisplayGroupsUserIsMemberIn/>
                 </div>
                 <DisplayManagerGroups />
               </div>

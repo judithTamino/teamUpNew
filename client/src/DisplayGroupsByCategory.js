@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import {MdInfo, MdAddCircle} from "react-icons/md";
+import {MdInfo, MdLockOpen, MdLockOutline} from "react-icons/md";
 import axios from "axios";
 
 export default class DisplayGroupsByCategory extends Component {
@@ -54,7 +54,7 @@ export default class DisplayGroupsByCategory extends Component {
                     <div key = {i}>
                         <h5>{group.groupName}</h5>
                         <h6>{group.members.length} members</h6>
-                        <p>{group.description}</p>
+                        {/* <p>{group.description}</p> */}
                         <div>
                             <div onClick = {() => {
                                 localStorage.setItem ('groupId', group._id);
@@ -63,9 +63,14 @@ export default class DisplayGroupsByCategory extends Component {
                                 <MdInfo/> <span>Info</span>
                             </div>
                             <div>
-                                <MdAddCircle/> <span>Join</span>
+                                {group.groupStatus === 'open'? 
+                                    <MdLockOpen/> : 
+                                    <MdLockOutline/>}
+                                    <span>{group.groupStatus}</span>
+                                {/* <MdAddCircle/> <span>Join</span> */}
                             </div>  
                         </div>
+                        <hr/>
                     </div>
                 )
                 

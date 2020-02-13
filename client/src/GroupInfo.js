@@ -18,9 +18,11 @@ export default class GroupInfo extends Component {
     membersInGroup: [],
     isJoinGroup: false,
     redirectToDisplayMembersInGroup: false,
-    isInTheGroup: false
+    joinGroup:false,
+    arrUser:[],
   };
   isGroupClose = false;
+  isInTheGroup = false;
 
   getGroupById = () => {
     axios
@@ -53,7 +55,19 @@ export default class GroupInfo extends Component {
   };
 
   isMemberInGroup = () => {
-
+    if (this.state.membersInGroup.length === 0) {
+      this.joinGroup();
+    } else {
+      for (let i = 0; i < this.state.membersInGroup.length; i++) {
+        const element = this.state.membersInGroup[i].members;
+        if (element === localStorage.user) {
+          this.isInTheGroup = true;
+        }
+      }
+      if (!this.isInTheGroup) {
+        this.userGroups();
+      } 
+    }
   };
 
   joinGroup = () => {
@@ -64,9 +78,10 @@ export default class GroupInfo extends Component {
       .then(res => {
         if (res.status === 200) {
           this.setState({ isJoinGroup: true });
+          this.userGroups();
           setTimeout(() => {
             this.setState({ isJoinGroup: false });
-          }, 5000);
+          }, 3000);
         } else {
           throw res.status;
         }
@@ -74,14 +89,26 @@ export default class GroupInfo extends Component {
       .catch(err => {
         console.log(err);
       });
-  };
+  }
+
+  userGroups = () => {
+    axios.get (`/users/findUserGroups/${localStorage.user}/${localStorage.groupId}`)
+    .then(res => {
+      if (res.status === 200) {
+        console.log (res.status);
+      } else {
+        throw res;
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
   render() {
     let disabled = false;
     if (
       this.state.group.groupStatus !== "open" ||
-      !("user" in localStorage) ||
-      this.isInTheGroup === true
+      !("user" in localStorage)
     ) {
       disabled = true;
     }
@@ -158,6 +185,10 @@ export default class GroupInfo extends Component {
               disabled={disabled}
               onClick={() => {
                 this.isMemberInGroup();
+                this.setState ({joinGroup:true});
+                setTimeout(() => {
+                  window.location.reload(false);
+                }, 5000);
               }}
             >
               Join Group
@@ -168,7 +199,7 @@ export default class GroupInfo extends Component {
                 <span>You are now member in {this.state.group.groupName}</span>
               </div>
             ) : null}
-            {this.state.isInTheGroup ? <p>Already a member</p> : null}
+            {this.state.joinGroup ? <p>Already a member</p> : null}
           </div>
         </div>
       </div>

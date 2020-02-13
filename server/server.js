@@ -44,15 +44,21 @@ app.get ('/users/findUserInterst/:userEmail', (req, res) => {
     teamUpModule.findUserInterst(req, res);
 });
 
+////////////////// find user groups
+app.get (`/users/findUserGroups/:userEmail/:groupId`, (req, res) => {
+    teamUpModule.findUserGroups(req, res);
+})
+
 ////////////////// upload profile photo
-app.post('/users/userHomePage', upload.single('imgFile'), (req, res) => {
-    teamUpModule.upLoadPhoto(req, res);
-});
+
+// app.post('/users/userHomePage', upload.single('imgFile'), (req, res) => {
+//     teamUpModule.upLoadPhoto(req, res);
+// });
 
 app.get ('/users/userHomePage/:newFileName', (req, res) => {
     console.log ('/users/userHomePage/:newFileName is accessed');
 
-    const fullPathFileName = path.join (__dirname, uploadDirectory, req.params.newFileName);
+    const fullPathFileName = path.join (__dirname, uploadDirectory);
     res.sendFile (fullPathFileName);
 });
 
@@ -85,10 +91,9 @@ app.patch('/groups/updateGroupsMembers/:id', (req, res) => {
     teamUpModule.updateGroupsMembers(req, res);
 });
 
-app.get(`/groups/isMemberInGroup/:id`, (req, res) => {
-    teamUpModule.isMemberInGroup(req, res);
+app.get('/groups/updateStatus/:id/:status', (req, res) => {
+    teamUpModule.updateStatus(req, res);
 });
-
 
 ////////////////// Categories
 app.get ('/categories/getCategories', (req, res) => {
