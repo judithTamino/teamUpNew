@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from "react";
 import "./App.css";
 import Navbar from './Navbar'
+import Footer from './Footer'
 import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
@@ -9,8 +10,13 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Navbar/>
+          <Navbar />
         </div>
+        {localStorage.user ?
+          <div className='footer'>
+            <Footer />
+          </div>
+          : null}
       </BrowserRouter>
     );
   }

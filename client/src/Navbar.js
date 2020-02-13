@@ -14,6 +14,7 @@ import DisplayGroupsByCategory from './DisplayGroupsByCategory';
 import GroupInfo from './GroupInfo';
 import DisplayMembersInGroup from './DisplayMembersInGroup';
 
+
 class Navbar extends Component {
 
     logOut(){
@@ -37,7 +38,7 @@ class Navbar extends Component {
                 <Link to='/' id="logoLink">TeamUp</Link>
                 <Link to='' onClick = {this.logOut.bind(this)} className="logLink">Log out</Link>
                 <Link to='/createGroup' id="registerLink">Create Group</Link>
-                <Link to = '/userHomePage' id="profileLink">Profile</Link>
+                <Link to='/userHomePage' id="profileLink">Profile</Link>
             </div>
         </div>
     )
@@ -56,7 +57,7 @@ class Navbar extends Component {
                     } />
 
                     <Route exact path='/userHomePage' component={UserHomePage} />
-                    <Route exact path = '/editprofile' component = {EditProfile}/>
+                    <Route exact path='/editprofile' component={EditProfile} />
 
                     <Route exact path='/createGroup' component={CreateGroup} />
                     <Route exact path='/editGroup' component={EditGroup} />
@@ -78,4 +79,4 @@ class Navbar extends Component {
     }
 }
 
-export default withRouter (Navbar);
+export default withRouter(Navbar);

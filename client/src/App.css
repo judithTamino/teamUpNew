@@ -36,3 +36,41 @@
   top: 10px;
   right: 180px;
 }
+
+.footer{
+  position: absolute;
+  bottom: 30px;
+  left: 40px;
+  border-top: 1px solid darkgrey;
+  width: 100%;
+}
+
+.login{
+  text-align: center;
+}
+/* .loginInputs{
+  border: 1px solid lightgrey;
+  height: 32em;
+  width: 40%;
+  position: relative;
+  top: 5em;
+  left: 27em;
+}
+#loginButton{
+  width: 150px;
+  position: relative;
+  top: 24em;
+  right: 12em;
+}
+.emailInput{
+  position: relative;
+  top: 7em;
+  left: 7em;
+  width: 250px;
+}
+.passwordInput{
+  width: 300px;
+  position: absolute;
+  top: 24em;
+  right: 39em;
+} */

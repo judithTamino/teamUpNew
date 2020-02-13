@@ -62,6 +62,10 @@ app.get ('/users/userHomePage/:newFileName', (req, res) => {
     res.sendFile (fullPathFileName);
 });
 
+app.patch ('/users/editProfile/:email', (req, res) => {
+    teamUpModule.editProfile (req, res);
+});
+
 ////////////////// Groups
 app.get ('/groups/:userEmail', (req, res) => {
     teamUpModule.getAllManagerGroups(req, res);
@@ -103,7 +107,6 @@ app.get ('/categories/getCategories', (req, res) => {
 app.get ('/categories/findCategoryById/:id', (req, res) => {
     teamUpModule.findCategoryById(req, res);
 });
-
 
 app.listen(PORT, () => {
     console.log(`server is up on port ${PORT}`);

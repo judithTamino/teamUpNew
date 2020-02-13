@@ -16,7 +16,8 @@ export default class Register extends Component {
       confirmedPass: '',
       interests: [],
       groups: [],
-      redirectTOhome: false, isError: false,
+      joiningDate: new Date (),
+      redirectTOprofile: false, isError: false,
       sportsFitnes: false, learning: false,
       foodDrinks: false, music: false,
       film: false, arts: false, books: false,
@@ -74,12 +75,13 @@ export default class Register extends Component {
       state: this.state.country,
       interests:this.tempInterests,
       groups: this.state.groups,
+      joiningDate:this.state.joiningDate
     })
       .then(res => {
         console.log(res);
         if (res.status === 201) {
-          this.setState({ redirectTOhome: true });
-          console.log(res.status);
+          this.setState({ redirectTOprofile: true });
+          window.location.reload(false);      
         } else {
           this.setState({ isError: true })
           console.log(`error code : ${res.status}`);
@@ -97,8 +99,8 @@ export default class Register extends Component {
   render() {
     const disabled = this.state.password !== this.state.confirmedPass;
 
-    if (this.state.redirectTOhome) {
-      return <Redirect to="/welcome"/>
+    if (this.state.redirectTOprofile) {
+      return <Redirect to="/login"/>
     }
     if (this.state.isError) {
       alert('user alrady exist, please login');

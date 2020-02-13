@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+const bcrypt = require("bcrypt")
+ 
+
 mongoose.connect("mongodb://localhost:27017/TeamUp", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -21,7 +24,6 @@ const UserSchema = new mongoose.Schema({
   joiningDate: String,
   interests: Array,
   groups: Array,
-  joiningDate: String,
   profileImage: String
 });
 
@@ -51,6 +53,7 @@ const User = mongoose.model("users", UserSchema);
 const Group = mongoose.model("groups", GroupSchema);
 const Categories = mongoose.model("categories", CategoriesSchema);
 
+<<<<<<< HEAD
 // const storage = multer.diskStorage({
 //   destination: uploadDirectory,
 //   filename: function (req, file, cb) {
@@ -92,6 +95,18 @@ function updateStatus(req, res) {
       res.status(404).send(err)
     } else {
       res.sendStatus(200);
+=======
+
+function upLoadPhoto(req, res) {
+  res.status(201).send({
+    body: req.body,
+    file: req.file
+  });
+
+  const userImage = {
+    $set: {
+      profileImage: req.file.filename
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
     }
   });
 }
@@ -107,11 +122,15 @@ function findUserGroups(req, res) {
 }
 
 function findUserByEmail(req, res) {
+<<<<<<< HEAD
   User.find({ email: req.params.userEmail }, function(err, user) {
+=======
+  User.find({ email: req.params.userEmail }, function (err, user) {
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
     if (err) {
       res.status(404).send(err);
     } else {
-      res.status(200).send(user);
+      res.send(user);
     }
   });
 }
@@ -139,6 +158,31 @@ function editGroup(req, res) {
     } else {
       res.sendStatus(200);
     }
+<<<<<<< HEAD
+=======
+  });
+}
+
+function editProfile(req, res) {
+  const profileId = {
+    email:req.params.email
+  }
+
+  const newValues = {
+    $set: {
+      city: req.body.city,
+      state: req.body.state,
+      password: req.body.password
+    }
+  };
+  User.updateOne(profileId, newValues, err => {
+    if (err) {
+      res.status(404).send(err);
+    }
+    else {
+      res.sendStatus(200);
+    }
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
   });
 }
 
@@ -147,7 +191,7 @@ function deleteGroup(req, res) {
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
     },
-    function(err) {
+    function (err) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -162,7 +206,7 @@ function getAllManagerGroups(req, res) {
     {
       groupManager: req.params.userEmail
     },
-    function(err, arrGroups) {
+    function (err, arrGroups) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -176,8 +220,12 @@ function getGroupByCategory(req, res) {
   Group.find(
     {
       category: req.params.categoryId
+<<<<<<< HEAD
     },
     function(err, groups) {
+=======
+    }, function (err, groups) {
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
       if (err) {
         res.status(404).send(err);
       } else {
@@ -214,10 +262,36 @@ function findMembersInGroup(req, res) {
         res.status(200).send(group.members);
       }
     }
+<<<<<<< HEAD
   );
 }
 
 function updateGroupsMembers(req, res) {
+=======
+  )
+}
+
+<<<<<<< HEAD
+function updateGroupsMembers(req, res) {
+=======
+function isMemberInGroup(req, res) {
+  console.log (req.body);
+  Group.find(
+    {_id: new mongoose.Types.ObjectId(`${req.params.id}`)}, 
+    {members:{$elemMatch: {members:req.body}}}, 
+    function (err, member) {
+      if (err) {
+        res.status(404).send(err)
+      } else {
+        res.status(200).send(member);
+      }
+    }
+  )
+}
+
+function updateGroupsMembers (req, res) {
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
   const groupId = {
     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
   };
@@ -225,11 +299,24 @@ function updateGroupsMembers(req, res) {
     $push: { members: req.body }
   };
 
+<<<<<<< HEAD
   Group.updateOne(groupId, newMember, err => {
+=======
+<<<<<<< HEAD
+  Group.updateOne(groupId, newMember, (err, obj) => {
+=======
+  Group.updateOne (groupId, newMember, (err) => {
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
     if (err) {
       res.sendStatus(404);
     } else {
+<<<<<<< HEAD
+      console.log(obj)
+      res.status(200).send(200);
+=======
       res.sendStatus(200);
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
     }
   });
 }
@@ -272,48 +359,97 @@ function registration(req, res) {
     profileImage: user.profileImage
   });
 
-  User.findOne(
-    {
-      email: userObj.email
-    },
-    function(err, obj) {
-      if (err) console.log(err);
-      if (obj !== null) {
-        res.status(403).send("already exists");
-      } else {
-        console.log(obj);
+  // User.findOne(
+  //   {
+  //     email: userObj.email
+  //   },
+  //   function (err, obj) {
+  //     if (err) console.log(err);
+  //     if (obj !== null) {
+  //       res.status(403).send("already exists");
+  //     } else {
+  //       console.log(obj);
+  //       userObj.save();
+  //       res.status(201).send(userObj);
+  //     }
+  //   }
+  // );
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(userObj.password, salt, function (err, hash) {
+        userObj.password = hash;
         userObj.save();
         res.status(201).send(userObj);
-      }
-    }
-  );
+        // User.findOne({ email: userObj.email }, function (err, obj) {
+        //     if (err) throw err;
+        //     if (obj !== null) {
+        //         res.status(403).send('already exists');
+        //     } else {
+        //         console.log(obj);
+        //         userObj.save();
+        //         
+        //     }
+        // })
+    });
+})
 }
 
-function login(req, res) {
-  const user = req.body;
-  User.findOne(
-    {
-      email: user.email,
-      password: user.password
-    },
-    function(err, obj) {
-      if (err) {
-        console.log(err);
-      } else if (obj) {
-        return res.status(200).send(obj);
-      } else {
-        return res.sendStatus(404);
-      }
-    }
-  );
+function login  (req, res) {
+  const getUser = req.body;
+  const findUser =  User.findOne({ email: getUser.email}).select('_id password firstName lastName email')
+  
+  if (findUser) {
+    findUser.exec((err, user) => {
+          bcrypt.compare(getUser.password, user.password, function (err, isMatch) {
+              if (err) {
+                  console.log(err);
+              }
+              else if (isMatch) {
+                  res.send(user)
+              } else {
+                  res.sendStatus(404);
+              }
+          })
+      })
+  }
 }
 
+<<<<<<< HEAD
 function findUserInterst(req, res) {
   User.findOne({ email: req.params.userEmail }, function(err, arrIntrests) {
     if (err) {
       res.status(404).send(err);
     } else {
       res.status(200).send(arrIntrests.interests);
+=======
+// function login(req, res) {
+//   const user = req.body;
+//   User.findOne(
+//     {
+//       email: user.email,
+//       password: user.password
+//     },
+//     function (err, obj) {
+//       if (err) {
+//         console.log(err);
+//       } else if (obj) {
+//         return res.status(200).send(obj);
+//       } else {
+//         return res.sendStatus(404);
+//       }
+//     }
+//   );
+// }
+
+function findUserInterst(req, res) {
+  User.findOne(
+    { email: req.params.userEmail },
+    function (err, arrIntrests) {
+      if (err) {
+        res.status(404).send(err);
+      } else {
+        res.send(arrIntrests.interests);
+      }
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
     }
   });
 }
@@ -351,6 +487,10 @@ module.exports.findUserByEmail = findUserByEmail;
 module.exports.getAllManagerGroups = getAllManagerGroups;
 module.exports.deleteGroup = deleteGroup;
 module.exports.editGroup = editGroup;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
 module.exports.findUserInterst = findUserInterst;
 module.exports.getCategories = getCategories;
 module.exports.getGroupByCategory = getGroupByCategory;
@@ -358,5 +498,20 @@ module.exports.findCategoryById = findCategoryById;
 module.exports.findGroupById = findGroupById;
 module.exports.findMembersInGroup = findMembersInGroup;
 module.exports.updateGroupsMembers = updateGroupsMembers;
+<<<<<<< HEAD
 module.exports.findUserGroups=findUserGroups;
 module.exports.updateStatus=updateStatus;
+=======
+module.exports.editProfile = editProfile;
+=======
+module.exports.findUserInterst=findUserInterst;
+module.exports.getCategories=getCategories;
+module.exports.getGroupByCategory=getGroupByCategory;
+module.exports.findCategoryById=findCategoryById;
+module.exports.findGroupById=findGroupById;
+module.exports.findMembersInGroup=findMembersInGroup;
+module.exports.updateGroupsMembers=updateGroupsMembers;
+module.exports.isMemberInGroup=isMemberInGroup;
+
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1

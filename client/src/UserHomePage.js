@@ -11,7 +11,7 @@ import DisplayGroupsUserIsMemberIn from "./DisplayGroupsUserIsMemberIn";
 // import { MdClose } from "react-icons/md";
 
 export default class UserHomePage extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -24,10 +24,13 @@ export default class UserHomePage extends Component {
       user: [],
       interests: [],
       redirectToEditProfile: false,
+<<<<<<< HEAD
       users:localStorage.user,
 
       uploading:false,
       images:[],
+=======
+>>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
     };
   }
 
@@ -135,8 +138,12 @@ export default class UserHomePage extends Component {
     if (this.state.flag) {
       return <Redirect to="/createGroup" />;
     }
+
     if (this.state.redirectToEditProfile) {
-      return <Redirect to="/editprofile" />;
+      return <Redirect to={{
+        pathname: '/editprofile',
+        state: { userArr: this.state.user }
+      }} />
     }
 
     return (
@@ -158,7 +165,7 @@ export default class UserHomePage extends Component {
 
                   <div className="memberSince float-left">
                     <h6>TeamUp member since:</h6>
-                    <span>{ moment(user1.joiningDate).format('MMMM Do YYYY')}</span>
+                    <span>{moment(user1.joiningDate).format('MMMM Do YYYY')}</span>
                   </div>
 
                   <div className="clearfix" />
