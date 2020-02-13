@@ -201,7 +201,26 @@ function findMembersInGroup(req, res) {
   )
 }
 
+<<<<<<< HEAD
 function updateGroupsMembers(req, res) {
+=======
+function isMemberInGroup(req, res) {
+  console.log (req.body);
+  Group.find(
+    {_id: new mongoose.Types.ObjectId(`${req.params.id}`)}, 
+    {members:{$elemMatch: {members:req.body}}}, 
+    function (err, member) {
+      if (err) {
+        res.status(404).send(err)
+      } else {
+        res.status(200).send(member);
+      }
+    }
+  )
+}
+
+function updateGroupsMembers (req, res) {
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
   const groupId = {
     _id: new mongoose.Types.ObjectId(`${req.params.id}`)
   };
@@ -209,12 +228,20 @@ function updateGroupsMembers(req, res) {
     $push: { members: req.body }
   };
 
+<<<<<<< HEAD
   Group.updateOne(groupId, newMember, (err, obj) => {
+=======
+  Group.updateOne (groupId, newMember, (err) => {
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
     if (err) {
-      res.status(404).send(err);
+      res.sendStatus(404);
     } else {
+<<<<<<< HEAD
       console.log(obj)
       res.status(200).send(200);
+=======
+      res.sendStatus(200);
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
     }
   });
 }
@@ -375,6 +402,7 @@ module.exports.upLoadPhoto = upLoadPhoto;
 module.exports.getAllManagerGroups = getAllManagerGroups;
 module.exports.deleteGroup = deleteGroup;
 module.exports.editGroup = editGroup;
+<<<<<<< HEAD
 module.exports.findUserInterst = findUserInterst;
 module.exports.getCategories = getCategories;
 module.exports.getGroupByCategory = getGroupByCategory;
@@ -383,3 +411,14 @@ module.exports.findGroupById = findGroupById;
 module.exports.findMembersInGroup = findMembersInGroup;
 module.exports.updateGroupsMembers = updateGroupsMembers;
 module.exports.editProfile = editProfile;
+=======
+module.exports.findUserInterst=findUserInterst;
+module.exports.getCategories=getCategories;
+module.exports.getGroupByCategory=getGroupByCategory;
+module.exports.findCategoryById=findCategoryById;
+module.exports.findGroupById=findGroupById;
+module.exports.findMembersInGroup=findMembersInGroup;
+module.exports.updateGroupsMembers=updateGroupsMembers;
+module.exports.isMemberInGroup=isMemberInGroup;
+
+>>>>>>> dbeed28ed332e9fdbcca65bd764f61816765ed07
