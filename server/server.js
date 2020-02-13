@@ -56,6 +56,10 @@ app.get ('/users/userHomePage/:newFileName', (req, res) => {
     res.sendFile (fullPathFileName);
 });
 
+app.patch ('/users/editProfile/:email', (req, res) => {
+    teamUpModule.editProfile (req, res);
+});
+
 ////////////////// Groups
 app.get ('/groups/:userEmail', (req, res) => {
     teamUpModule.getAllManagerGroups(req, res);
@@ -79,6 +83,10 @@ app.get ('/groups/findGroupById/:id', (req, res) => {
 
 app.get('/groups/findMembersInGroup/:id', (req, res) => {
     teamUpModule.findMembersInGroup(req, res);
+});
+
+app.patch('/groups/updateGroupsMembers/:id', (req, res) => {
+    teamUpModule.updateGroupsMembers(req, res);
 });
 
 

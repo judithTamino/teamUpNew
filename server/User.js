@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+const bcrypt = require("bcrypt")
+ 
+
 mongoose.connect("mongodb://localhost:27017/TeamUp", {
   useUnifiedTopology: true,
   useNewUrlParser: true
@@ -34,15 +37,14 @@ const GroupSchema = new mongoose.Schema({
   groupStatus: String
 });
 
-const CategoriesSchema = new mongoose.Schema ({
-  name:String,
+const CategoriesSchema = new mongoose.Schema({
+  name: String,
   groups: Array
 });
 
 const User = mongoose.model("users", UserSchema);
 const Group = mongoose.model("groups", GroupSchema);
 const Categories = mongoose.model("categories", CategoriesSchema);
-
 
 
 function upLoadPhoto(req, res) {
@@ -70,7 +72,7 @@ function upLoadPhoto(req, res) {
 }
 
 function findUserByEmail(req, res) {
-  User.find ({email: req.params.userEmail}, function (err, user) {
+  User.find({ email: req.params.userEmail }, function (err, user) {
     if (err) {
       res.status(404).send(err);
     } else {
@@ -85,23 +87,45 @@ function editGroup(req, res) {
   };
 
   const newValues = {
-      $set: {
-          date: req.body.date,
-          startTime: req.body.startTime,
-          endTime: req.body.endTime,
-          street: req.body.street,
-          streetNumber: req.body.streetNumber,
-          city: req.body.city,
-          groupName: req.body.groupName
-      }
+    $set: {
+      date: req.body.date,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      street: req.body.street,
+      streetNumber: req.body.streetNumber,
+      city: req.body.city,
+      groupName: req.body.groupName
+    }
   };
 
-  Group.updateOne (groupId, newValues, err => {
-      if (err) {
-          res.status(404).send(err);
-      } else {
-          res.sendStatus(200);
-      }
+  Group.updateOne(groupId, newValues, err => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+}
+
+function editProfile(req, res) {
+  const profileId = {
+    email:req.params.email
+  }
+
+  const newValues = {
+    $set: {
+      city: req.body.city,
+      state: req.body.state,
+      password: req.body.password
+    }
+  };
+  User.updateOne(profileId, newValues, err => {
+    if (err) {
+      res.status(404).send(err);
+    }
+    else {
+      res.sendStatus(200);
+    }
   });
 }
 
@@ -110,7 +134,7 @@ function deleteGroup(req, res) {
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
     },
-    function(err) {
+    function (err) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -125,7 +149,7 @@ function getAllManagerGroups(req, res) {
     {
       groupManager: req.params.userEmail
     },
-    function(err, arrGroups) {
+    function (err, arrGroups) {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -136,9 +160,9 @@ function getAllManagerGroups(req, res) {
 }
 
 function getGroupByCategory(req, res) {
-  Group.find (
+  Group.find(
     {
-      category:req.params.categoryId
+      category: req.params.categoryId
     }, function (err, groups) {
       if (err) {
         res.status(404).send(err);
@@ -150,7 +174,7 @@ function getGroupByCategory(req, res) {
 }
 
 function findGroupById(req, res) {
-  Group.findOne (
+  Group.findOne(
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
     }, function (err, group) {
@@ -164,7 +188,7 @@ function findGroupById(req, res) {
 }
 
 function findMembersInGroup(req, res) {
-  Group.findOne (
+  Group.findOne(
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
     }, function (err, group) {
@@ -177,31 +201,22 @@ function findMembersInGroup(req, res) {
   )
 }
 
-function updateGroupMembers(req, res) {
-  // const groupId = {
-  //   _id: new mongoose.Types.ObjectId(`${req.params.id}`)
-  // };
+function updateGroupsMembers(req, res) {
+  const groupId = {
+    _id: new mongoose.Types.ObjectId(`${req.params.id}`)
+  };
+  const newMember = {
+    $push: { members: req.body }
+  };
 
-  // const newValues = {
-  //     $set: {
-  //         date: req.body.date,
-  //         startTime: req.body.startTime,
-  //         endTime: req.body.endTime,
-  //         street: req.body.street,
-  //         streetNumber: req.body.streetNumber,
-  //         city: req.body.city,
-  //         groupName: req.body.groupName
-  //     }
-  // };
-
-  // Group.updateOne (groupId, newValues, err => {
-  //     if (err) {
-  //         res.status(404).send(err);
-  //     } else {
-  //         res.sendStatus(200);
-  //     }
-  // });
-
+  Group.updateOne(groupId, newMember, (err, obj) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      console.log(obj)
+      res.status(200).send(200);
+    }
+  });
 }
 
 function createGroup(req, res) {
@@ -242,46 +257,82 @@ function registration(req, res) {
     profileImage: user.profileImage
   });
 
-  User.findOne(
-    {
-      email: userObj.email
-    },
-    function(err, obj) {
-      if (err) console.log(err);
-      if (obj !== null) {
-        res.status(403).send("already exists");
-      } else {
-        console.log(obj);
+  // User.findOne(
+  //   {
+  //     email: userObj.email
+  //   },
+  //   function (err, obj) {
+  //     if (err) console.log(err);
+  //     if (obj !== null) {
+  //       res.status(403).send("already exists");
+  //     } else {
+  //       console.log(obj);
+  //       userObj.save();
+  //       res.status(201).send(userObj);
+  //     }
+  //   }
+  // );
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(userObj.password, salt, function (err, hash) {
+        userObj.password = hash;
         userObj.save();
         res.status(201).send(userObj);
-      }
-    }
-  );
+        // User.findOne({ email: userObj.email }, function (err, obj) {
+        //     if (err) throw err;
+        //     if (obj !== null) {
+        //         res.status(403).send('already exists');
+        //     } else {
+        //         console.log(obj);
+        //         userObj.save();
+        //         
+        //     }
+        // })
+    });
+})
 }
 
-function login(req, res) {
-  const user = req.body;
+function login  (req, res) {
+  const getUser = req.body;
+  const findUser =  User.findOne({ email: getUser.email}).select('_id password firstName lastName email')
+  
+  if (findUser) {
+    findUser.exec((err, user) => {
+          bcrypt.compare(getUser.password, user.password, function (err, isMatch) {
+              if (err) {
+                  console.log(err);
+              }
+              else if (isMatch) {
+                  res.send(user)
+              } else {
+                  res.sendStatus(404);
+              }
+          })
+      })
+  }
+}
 
+// function login(req, res) {
+//   const user = req.body;
+//   User.findOne(
+//     {
+//       email: user.email,
+//       password: user.password
+//     },
+//     function (err, obj) {
+//       if (err) {
+//         console.log(err);
+//       } else if (obj) {
+//         return res.status(200).send(obj);
+//       } else {
+//         return res.sendStatus(404);
+//       }
+//     }
+//   );
+// }
+
+function findUserInterst(req, res) {
   User.findOne(
-    {
-      email: user.email,
-      password: user.password
-    },
-    function(err, obj) {
-      if (err) {
-        console.log(err);
-      } else if (obj) {
-        return res.status(200).send(obj);
-      } else {
-        return res.sendStatus(404);
-      }
-    }
-  );
-}
-
-function findUserInterst (req, res) {
-  User.findOne (
-    {email: req.params.userEmail},
+    { email: req.params.userEmail },
     function (err, arrIntrests) {
       if (err) {
         res.status(404).send(err);
@@ -292,8 +343,8 @@ function findUserInterst (req, res) {
   );
 }
 
-function getCategories (req, res) {
-  Categories.find ((err, categories) =>{
+function getCategories(req, res) {
+  Categories.find((err, categories) => {
     if (err) {
       res.status(404).send(err);
     } else {
@@ -302,8 +353,8 @@ function getCategories (req, res) {
   });
 }
 
-function findCategoryById (req, res) {
-  Categories.findOne (
+function findCategoryById(req, res) {
+  Categories.findOne(
     {
       _id: new mongoose.Types.ObjectId(`${req.params.id}`)
     }, function (err, category) {
@@ -324,9 +375,11 @@ module.exports.upLoadPhoto = upLoadPhoto;
 module.exports.getAllManagerGroups = getAllManagerGroups;
 module.exports.deleteGroup = deleteGroup;
 module.exports.editGroup = editGroup;
-module.exports.findUserInterst=findUserInterst;
-module.exports.getCategories=getCategories;
-module.exports.getGroupByCategory=getGroupByCategory;
-module.exports.findCategoryById=findCategoryById;
-module.exports.findGroupById=findGroupById;
-module.exports.findMembersInGroup=findMembersInGroup;
+module.exports.findUserInterst = findUserInterst;
+module.exports.getCategories = getCategories;
+module.exports.getGroupByCategory = getGroupByCategory;
+module.exports.findCategoryById = findCategoryById;
+module.exports.findGroupById = findGroupById;
+module.exports.findMembersInGroup = findMembersInGroup;
+module.exports.updateGroupsMembers = updateGroupsMembers;
+module.exports.editProfile = editProfile;

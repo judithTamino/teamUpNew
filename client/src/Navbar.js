@@ -11,11 +11,13 @@ import EditProfile from './EditProfile';
 
 import EditGroup from './EditGroup';
 import DisplayGroupsByCategory from './DisplayGroupsByCategory';
+import GroupInfo from './GroupInfo';
+
 
 class Navbar extends Component {
 
-    logOut() {
-        localStorage.removeItem('user')
+    logOut(){
+        localStorage.clear();
         this.props.history.push('/');
     }
 
@@ -33,7 +35,7 @@ class Navbar extends Component {
         <div className="App">
             <div className="upperMenu">
                 <Link to='/' id="logoLink">TeamUp</Link>
-                <Link to='' onClick={this.logOut.bind(this)} className="logLink">Log out</Link>
+                <Link to='' onClick = {this.logOut.bind(this)} className="logLink">Log out</Link>
                 <Link to='/createGroup' id="registerLink">Create Group</Link>
                 <Link to='/userHomePage' id="profileLink">Profile</Link>
             </div>
@@ -43,7 +45,7 @@ class Navbar extends Component {
     render() {
         return (
             <BrowserRouter>
-                {this.navController()};
+                {this.navController()}
                 <Switch>
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/register' render={
@@ -59,17 +61,17 @@ class Navbar extends Component {
                     <Route exact path='/createGroup' component={CreateGroup} />
                     <Route exact path='/editGroup' component={EditGroup} />
                     <Route exact path='/displayGroupsByCategory' component={DisplayGroupsByCategory} />
+                    <Route exact path='/groupInfo' component={GroupInfo}/>
                 </Switch>
-
             </BrowserRouter>
         )
     }
 
     navController = () => {
-        if (localStorage.user) {
-            return this.loggedIn;
+        if ("user" in localStorage) {
+            return this.loggedIn; 
         }
-        else {
+        else { 
             return this.generalPage;
         }
     }

@@ -9,17 +9,22 @@ import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md";
 
 export default class UserHomePage extends Component {
-  state = {
-    flag: false,
-    showProfilePopUp: false,
-    file: "",
-    image: "",
-    newFilename: "",
-    showFile: false,
-    user: [],
-    interests: [],
-    redirectToEditProfile: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      flag: false,
+      showProfilePopUp: false,
+      file: "",
+      image: "",
+      newFilename: "",
+      showFile: false,
+      user: [],
+      interests: [],
+      redirectToEditProfile: false,
+    };
+  }
+
 
   loadProfileImage = () => {
     let fromData = new FormData();
@@ -90,7 +95,7 @@ export default class UserHomePage extends Component {
         }
       })
       .catch(err => {
-        throw err;
+        console.log(err);
       });
   };
 
@@ -126,8 +131,12 @@ export default class UserHomePage extends Component {
     if (this.state.flag) {
       return <Redirect to="/createGroup" />;
     }
+
     if (this.state.redirectToEditProfile) {
-      return <Redirect to="/editprofile" />;
+      return <Redirect to={{
+        pathname: '/editprofile',
+        state: { userArr: this.state.user }
+      }} />
     }
 
     return (
@@ -136,88 +145,90 @@ export default class UserHomePage extends Component {
 
           return (
             <div key={i}>
-              <div className="PersonalInfo">
-                <div>
-                  <h2>{user1.name}</h2>
-                </div>
-
-                <div className="location float-left">
-                  <h6>Location:</h6>
-                  <span>{user1.city}</span>
-                </div>
-
-                <div className="memberSince float-left">
-                  <h6>TeamUp member since:</h6>
-                  <span>{ moment(user1.joiningDate).format('MMMM Do YYYY')}</span>
-                </div>
-
-                <div className="clearfix" />
-
-                <div>
-                  <span>Add a bio</span>
-                </div>
-              </div>
-
-              <div className="float-right profileImgAndIntrests">
-                <div>
-                  {!this.state.showFile ? (
-                    <MdAccountBox className="userProfileIcon" />
-                  ) : (
-                      <img src={this.state.image} alt="profile" />
-                    )}
-                </div>
-
-                <div
-                  onClick={() => {
-                    this.showProfilePopUp();
-                  }}
-                >
-                  Set a profile photo
-                </div>
-
-                {this.state.showProfilePopUp ? (
+              <div className="row">
+                <div className="PersonalInfo col-9">
                   <div>
-                    <MdClose onClick={this.closeProfilePopUp} />
-                    <input
-                      type="file"
-                      onChange={event =>
-                        this.setState({ file: event.target.files[0] })
-                      }
-                      onClick={() => {
-                        this.displayImg();
-                      }}
-                    />
-
-                    <div>
-                      <button
-                        onClick={() => {
-                          this.displayIcon();
-                        }}
-                      >
-                        Dont show a photo
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          this.loadProfileImage();
-                        }}
-                      >
-                        Done
-                      </button>
-                    </div>
+                    <h2>{user1.name}</h2>
                   </div>
-                ) : null}
-                <div>
-                  <h6>Intrests:</h6>
-                  <span>{this.state.interests.map((interest, i) => {
-                    return (
-                      <span key={i}>{interest} </span>
-                    )
-                  })}</span>
+
+                  <div className="location float-left">
+                    <h6>Location:</h6>
+                    <span>{user1.city}</span>
+                  </div>
+
+                  <div className="memberSince float-left">
+                    <h6>TeamUp member since:</h6>
+                    <span>{moment(user1.joiningDate).format('MMMM Do YYYY')}</span>
+                  </div>
+
+                  <div className="clearfix" />
+
+                  <div>
+                    <span>Add a bio</span>
+                  </div>
                 </div>
-                <span onClick={() => {
-                  this.setState({ redirectToEditProfile: true })
-                }}>Edit profile</span>
+
+                <div className="profileImgAndIntrests col-3">
+                  <div>
+                    {!this.state.showFile ? (
+                      <MdAccountBox className="userProfileIcon" />
+                    ) : (
+                        <img src={this.state.image} alt="profile" />
+                      )}
+                  </div>
+
+                  <div
+                    onClick={() => {
+                      this.showProfilePopUp();
+                    }}
+                  >
+                    Set a profile photo
+                  </div>
+
+                  {this.state.showProfilePopUp ? (
+                    <div>
+                      <MdClose onClick={this.closeProfilePopUp} />
+                      <input
+                        type="file"
+                        onChange={event =>
+                          this.setState({ file: event.target.files[0] })
+                        }
+                        onClick={() => {
+                          this.displayImg();
+                        }}
+                      />
+
+                      <div>
+                        <button
+                          onClick={() => {
+                            this.displayIcon();
+                          }}
+                        >
+                          Dont show a photo
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            this.loadProfileImage();
+                          }}
+                        >
+                          Done
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
+                  <div>
+                    <h6>Intrests:</h6>
+                    <span>{this.state.interests.map((interest, i) => {
+                      return (
+                        <span key={i}>{interest} </span>
+                      )
+                    })}</span>
+                  </div>
+                  <span onClick={() => {
+                    this.setState({ redirectToEditProfile: true })
+                  }}>Edit profile</span>
+                </div>
               </div>
 
               <div>

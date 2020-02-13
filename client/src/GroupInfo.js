@@ -3,6 +3,7 @@ import axios from "axios";
 import {MdPlace, MdWatchLater, MdPeople, MdLockOpen, MdLockOutline} from 'react-icons/md';
 import moment from "moment";
 import "./style/groupInfo.css";
+import DisplayMembersInGroup from './DisplayMembersInGroup';
 
 export default class GroupInfo extends Component {
     state = {
@@ -39,10 +40,21 @@ export default class GroupInfo extends Component {
         let tempMembersInGroup = [...this.state.membersInGroup];
         tempMembersInGroup.push (localStorage.user);
         this.setState ({membersInGroup:tempMembersInGroup});
+
+        this.updateGroupsMembers ();
     }
 
     updateGroupsMembers = () => {
-        
+        axios.patch(`/groups/updateGroupsMembers/${this.props.location.state.id}`, {
+            members:localStorage.user
+        })
+        .then(res => {
+            if (res.status === 200) {
+            } else {
+                throw res.status;
+            }
+        }).catch(err => {
+        });    
     }
 
   render() {
@@ -87,9 +99,15 @@ export default class GroupInfo extends Component {
                     <p>{this.state.group.description}</p>
                 </div>
                 <div className="col-4">
-                    <button disabled = {disabled}>Join Group</button>
+                    <button disabled = {disabled} onClick = {() => 
+                        {
+                            this.joinGroup();
+                        }
+                    }>Join Group</button>
+                    <DisplayMembersInGroup membersInGroup = {this.state.membersInGroup}/>
                 </div>
             </div>
+            
         </div>
     );
   }
