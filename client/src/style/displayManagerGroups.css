@@ -1,5 +1,39 @@
-.groupName,
-.numMembers,
-.groupStatus {
+.displayManagerGroup {
+    padding: 20px;
+}
+
+.DisplayManagerGroups-MainTitle {
+    font-weight: lighter;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+}
+
+.ManagerGroups {
+    float: left;
+    width: 30%;
+    height: 50%;
+    margin-right: 5px;
+}
+
+.ManagerGroups-GroupName {
     display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em;
+    color: white;
+    background-color: rgba(33, 33, 33, 0.5);
+    padding: 5px;
+}
+
+.ManagerGroups-NumMembers,
+.ManagerGroups-GroupStatus {
+    display: block;
+    text-transform: uppercase;
+}
+
+.ManagerGroups-GroupsEdit {
+    padding: 20px;
+}
+
+.ManagerGroups-Icons {
+    cursor: pointer;
 }

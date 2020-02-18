@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro|Playfair+Display&display=swap");
+
+.login {
+
+    background-image: linear-gradient(
+        to right bottom, 
+        rgba(33, 33, 33, 0.5), 
+        rgba(33, 33, 33, 0.4)),  
+        url('/LoginBackgroundImage.jpg');
+    background-color: rgba(33, 33, 33, 0.9);
+    background-size: cover;
+    font-family: 'Maven Pro', sans-serif;
+    color: #fff;
+    text-align: center;
+    height: 100vh;
+    position: relative;
+}
+.loginbox {
+    background-color: rgba(33, 33, 33, 0.9);
+    padding: 40px;
+    width: 317px;
+    height: 400px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.emailInput, .passwordInput{
+    width: 240;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    color: #fff;
+    margin-bottom: 20px;
+}
+.loginButton{
+    border: none;
+    width: 190px;
+    background: white;
+    color: #000;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 0;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+.loginButton:hover{
+    color: #fff;
+    background-color: black;
+}
+.headerLogin{
+    color: white;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+::placeholder{
+    color: aliceblue;
+    opacity: 0.8;
+}
+.click{
+    color: #FBC02D;
+    text-decoration: blink;
+    cursor: pointer;
+}
+.click:hover{
+    color: skyblue;
+}

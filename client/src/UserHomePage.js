@@ -6,9 +6,10 @@ import axios from "axios";
 import moment from "moment";
 
 import "./style/UserHomePage.css";
+// import "./style/displayMembersInGroup.css";
+
 import DisplayGroupsUserIsMemberIn from "./DisplayGroupsUserIsMemberIn";
-// import { MdAccountBox } from "react-icons/md";
-// import { MdClose } from "react-icons/md";
+import { MdAccountBox } from "react-icons/md";
 
 export default class UserHomePage extends Component {
   constructor(props) {
@@ -16,65 +17,31 @@ export default class UserHomePage extends Component {
 
     this.state = {
       flag: false,
-      showProfilePopUp: false,
-      file: "",
-      image: "",
-      newFilename: "",
-      showFile: false,
       user: [],
       interests: [],
-      redirectToEditProfile: false,
-<<<<<<< HEAD
-      users:localStorage.user,
-
-      uploading:false,
-      images:[],
-=======
->>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
+      redirectToEditProfile: false
     };
   }
 
   loadProfileImage = () => {
     let fromData = new FormData();
-    
     fromData.append("imgFile", this.state.file);
     fromData.append("email", localStorage.user);
-    if (this.state.file !== "") {
-      axios
-        .post("/users/userHomePage", fromData)
-        .then(res => {
-          if (res.status === 201) {
-            this.setState({ newFilename: res.data.file.filename });
-            this.getProfileImage();
-          } else {
-            console.log(res.status);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  };
 
-  getProfileImage = () => {
+    const config = { headers: { "content-type": "multipart/from-data" } };
     axios
-      .get(`/users/userHomePage/${this.state.newFilename}`, {
-        responseType: "blob"
-      })
+      .post("/users/userHomePage", fromData, config)
       .then(res => {
-        if (res.status === 200) {
-          const reader = new FileReader();
-          reader.readAsDataURL(res.data);
-          const _this = this;
-          reader.onload = function () {
-            const imageDataUrl = reader.result;
-            _this.setState({ image: imageDataUrl });
-          };
+        if (res.status === 201) {
+          this.setState({ newFilename: res.data.file.filename });
+          this.getProfileImage();
         } else {
-          console.log(`error statuse code : ${res.status}`);
+          console.log(res.status);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   getUser = () => {
@@ -93,7 +60,8 @@ export default class UserHomePage extends Component {
   };
 
   getIntrests = () => {
-    axios.get(`/users/findUserInterst/${localStorage.user}`)
+    axios
+      .get(`/users/findUserInterst/${localStorage.user}`)
       .then(res => {
         if (res.status === 200) {
           this.setState({ interests: res.data });
@@ -106,152 +74,81 @@ export default class UserHomePage extends Component {
       });
   };
 
-  isThereProfileImage = (image) => {
-    if (image !== '') {
-      this.setState({ newFilename: image });
-    }
-  }
-
-  redirectToCreateGroup = () => {
-    this.setState({ flag: true });
-  };
-
-  showProfilePopUp = () => {
-    this.setState({ showProfilePopUp: true });
-  };
-
-  closeProfilePopUp = () => {
-    this.setState({ showProfilePopUp: false });
-  };
-
-  displayImg = () => {
-    this.setState({ showFile: true });
-  };
-
-  displayIcon = () => {
-    this.setState({ showFile: false });
-  };
-
-
-
   render() {
-    if (this.state.flag) {
-      return <Redirect to="/createGroup" />;
-    }
-
     if (this.state.redirectToEditProfile) {
-      return <Redirect to={{
-        pathname: '/editprofile',
-        state: { userArr: this.state.user }
-      }} />
+      return (
+        <Redirect
+          to={{
+            pathname: "/editprofile",
+            state: { userArr: this.state.user }
+          }}
+        />
+      );
     }
 
     return (
-      <div className="userHamePage">
+      <div className="userHomepage">
         {this.state.user.map((user1, i) => {
-
           return (
-            <div key={i}>
+            <div key={i} className="ProfileInfo">
               <div className="row">
-                <div className="PersonalInfo col-9">
+                <div className="PersonalInfo col-5">
                   <div>
-                    <h2>{user1.name}</h2>
+                    <h2 className="ProfileInfo-UserName">{user1.name}</h2>
                   </div>
 
-                  <div className="location float-left">
-                    <h6>Location:</h6>
-                    <span>{user1.city}</span>
+                  <div className="ProfileInfo-Location">
+                    <h6 className="ProfileInfo-Location-MainTitle">
+                      Location:
+                    </h6>
+                    <span className="ProfileInfo-Location-Details">
+                      {user1.city}
+                    </span>
                   </div>
 
-                  <div className="memberSince float-left">
-                    <h6>TeamUp member since:</h6>
-                    <span>{moment(user1.joiningDate).format('MMMM Do YYYY')}</span>
-                  </div>
-
-                  <div className="clearfix" />
-
-                  <div>
-                    <span>Add a bio</span>
+                  <div className="ProfileInfo-MemberSince">
+                    <h6 className="ProfileInfo-MemberSince-MainTitle">
+                      TeamUp member since:
+                    </h6>
+                    <span className="ProfileInfo-MemberSince-Details">
+                      {moment(user1.joiningDate).format("MMMM Do YYYY")}
+                    </span>
                   </div>
                 </div>
 
-                <div className="profileImgAndIntrests col-3">
-                  {/* <div>
-                    {!this.state.showFile ? (
-                      <MdAccountBox className="userProfileIcon" />
-                    ) : (
-                        <img src={this.state.image} alt="profile" />
-                      )}
+                <div className="ProfileImgAndIntrests col-5">
+                  <div>
+                    <MdAccountBox className="userProfileIcon" />
                   </div>
-
-                  <div
+                  <div className="ProfileImgAndIntrests-Intrests">
+                    <h6 className="ProfileImgAndIntrests-Intrests-MainTitle">
+                      Intrests:
+                    </h6>
+                    <span className="ProfileImgAndIntrests-Intrests-Details">
+                      {this.state.interests.map((interest, i) => {
+                        return (
+                          <span key={i}>
+                            {interest} <span>,</span>
+                          </span>
+                        );
+                      })}
+                    </span>
+                  </div>
+                  <span
+                    className="EditProfile"
                     onClick={() => {
-                      this.showProfilePopUp();
+                      this.setState({ redirectToEditProfile: true });
                     }}
                   >
-                    Set a profile photo
-                  </div>
-
-                  {this.state.showProfilePopUp ? (
-                    <div>
-                      <MdClose onClick={this.closeProfilePopUp} />
-                      <input
-                        type="file"
-                        onChange={event =>
-                          this.setState({ file: event.target.files[0] })
-                        }
-                        onClick={() => {
-                          // this.displayImg();
-                        }}
-                      />
-
-                      <div>
-                        <button
-                          onClick={() => {
-                            this.displayIcon();
-                          }}
-                        >
-                          Dont show a photo
-                        </button>
-
-                        <button
-                          onClick={() => {
-                            this.loadProfileImage();
-                          }}
-                        >
-                          Done
-                        </button>
-                      </div>
-                    </div>
-                  ) : null} */}
-                  <div>
-                    <h6>Intrests:</h6>
-                    <span>{this.state.interests.map((interest, i) => {
-                      return (
-                        <span key={i}>{interest} <span>,</span>
-                        </span>
-                      )
-                    })}</span>
-                  </div>
-                  <span onClick={() => {
-                    this.setState({ redirectToEditProfile: true })
-                  }}>Edit profile</span>
+                    Edit profile
+                  </span>
                 </div>
               </div>
 
-              <div>
-                <div>
-                  <h2>Member of {user1.groups.length} groups</h2>
-                  <DisplayGroupsUserIsMemberIn/>
-                </div>
-                <DisplayManagerGroups />
-              </div>
+                <h2 className="NumberOfGroupsUserJoin">Member of {user1.groups.length} group(s)</h2>
 
-              <div>
-                <button onClick={this.redirectToCreateGroup}>
-                  Start a new group
-                </button>
-              </div>
+              <DisplayGroupsUserIsMemberIn groupsArr={user1.groups}/>
+              <DisplayManagerGroups/>
             </div>
           );
         })}

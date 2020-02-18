@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro|Playfair+Display&display=swap");
+
+.register {
+    background-image: url('/RegisterBackgroundImage.jpg');
+    background-size: cover;
+    font-family: 'Maven Pro', sans-serif;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    text-transform: capitalize;
+    font-size: 16px;
+}
+
+.RegisterComponent{
+    background-color: rgba(33, 33, 33, 0.8);
+    padding: 40px;
+    width: 50%;
+    height: 70vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    box-sizing: border-box;
+}
+.RegisterComponent-MainTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 4em;
+    text-align: center;
+    padding: 40px;
+}
+
+.RegisterComponent-Input{
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.Email {
+    width: 400px;
+}
+.checkboxCategories {
+    padding: 20px;
+    line-height: 2em;
+}
+input[type="checkbox"]{
+    margin-left: 30px;
+}
+
+.checkboxCategories-Intrests {
+    color: white;
+    padding: 5px;
+}
+
+.registerButton{
+    border: none;
+    width: 30em;
+    background: white;
+    color: #000;
+    padding: 10px 0;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+.registerButton:hover{
+    color: #fff;
+    background-color: black;
+}
+.checkboxCategories-MainTitle {
+    font-size: 1.7em;
+    color:#FBC02D;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+}

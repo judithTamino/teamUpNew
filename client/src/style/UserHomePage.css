@@ -1,19 +1,68 @@
-.location,
-.memberSince {
-    padding-right: 20px;
-}
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro|Playfair+Display&display=swap");
+/* @import url("https://fonts.googleapis.com/css?family=Amatic+SC|Bellefair&display=swap"); Hebrew */
 
 .userHomepage {
-    font-size: 14px;
+    font-size: 16px;
+    height: 100vh;
+    text-transform: capitalize;
+    background-image: url('/MainBackgroungImage.jpg');
+    background-size: cover;
+    padding-top: 5%;
+}
+
+.ProfileInfo {
+    width: 50%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+}
+
+.ProfileInfo-Location,
+.ProfileInfo-MemberSince,
+.ProfileImgAndIntrests-Intrests {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #212121;
+}
+
+.ProfileInfo-UserName,
+.ProfileInfo-Location-MainTitle,
+.ProfileInfo-MemberSince-MainTitle,
+.ProfileImgAndIntrests-Intrests-MainTitle {
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    padding-top: 10px;
+}
+
+.ProfileInfo-Location-Details,
+.ProfileInfo-MemberSince-Details,
+.ProfileImgAndIntrests-Intrests-Details {
+    font-size: 1.2em;
+    font-weight: lighter;
+    color: #212121;
 }
 
 .userProfileIcon {
     font-size: 7em;
 }
 
-.PersonalInfo {
-    padding: 5px 20px;
-    display: inline;
+.EditProfile {
+    font-size: 1.3em;
+    font-weight: lighter;
+    background-color: rgba(251, 192, 45, 0.5);
+    color: #212121;
+    padding: 0 15px;
+    cursor: pointer;
 }
+
+.NumberOfGroupsUserJoin {
+    width: 50%;
+    padding-left: 50px;
+    font-weight: lighter;
+    text-transform: uppercase;
+}
+
+
 
 

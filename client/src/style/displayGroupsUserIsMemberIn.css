@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.displayGroupsUserIsMemberIn {
+    width: 100%;
+    height: 20vh;
+    background-color: rgba(189, 189, 189, 0);
+    padding: 20px;
+}
+
+.GroupsUserIsMemberInDisplay {
+    float: left;
+    width: 30%;
+    height: 50%;
+    margin-right: 5px;
+}
+
+.GroupsUserIsMemberInDisplay-ColorBlock {
+    width: 100%;
+    height: 30%;
+    background-color: #FBC02D ;
+}
+
+.GroupsUserIsMemberInDisplay-GroupName {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em;
+    padding: 0 5px;
+    color: #212121;
+}
+
+.GroupsUserIsMemberInDisplay-GroupDate {
+    font-size: 1.2em;
+    padding: 0 5px;
+    color: #212121;
+}
+
+.GroupsUserIsMemberInDisplay-ExitGroupBtn{
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.GroupsUserIsMemberInDisplay-ExitGroupBtn:hover {
+    text-shadow: 2px 2px rgb(251, 192, 45);
+    font-size: 1.3em;
+}
+
+.GroupsUserIsMemberInDisplay-ExitGroupIcon {
+    margin: 0 10px;
+}

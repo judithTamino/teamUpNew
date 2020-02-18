@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({
 // Register
 app.post('/users/register', (req, res) => {
     teamUpModule.registration(req, res);
-    // teamUpModule.interestsTOarray(req,res);
 });
 
 // Login
@@ -49,18 +48,26 @@ app.get (`/users/findUserGroups/:userEmail/:groupId`, (req, res) => {
     teamUpModule.findUserGroups(req, res);
 })
 
-////////////////// upload profile photo
+app.patch('/groups/exitGroup/:id', (req, res) => {
+    teamUpModule.exitGroup(req, res);
+})
 
+app.get('/users/exitGroupUserSide/:userEmail/:groupId', (req, res) => {
+    teamUpModule.exitGroupUserSide(req, res);
+})
+
+////////////////// upload profile photo
+app.post('/image/uploadProfileImage')
 // app.post('/users/userHomePage', upload.single('imgFile'), (req, res) => {
-//     teamUpModule.upLoadPhoto(req, res);
+//     teamUpModule.uploadPhoto(req, res);
 // });
 
-app.get ('/users/userHomePage/:newFileName', (req, res) => {
-    console.log ('/users/userHomePage/:newFileName is accessed');
+// app.get ('/users/userHomePage/:newFileName', (req, res) => {
+//     console.log ('/users/userHomePage/:newFileName is accessed');
 
-    const fullPathFileName = path.join (__dirname, uploadDirectory);
-    res.sendFile (fullPathFileName);
-});
+//     const fullPathFileName = path.join (__dirname, uploadDirectory);
+//     res.sendFile (fullPathFileName);
+// });
 
 app.patch ('/users/editProfile/:email', (req, res) => {
     teamUpModule.editProfile (req, res);

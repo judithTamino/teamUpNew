@@ -18,8 +18,8 @@ export default class GroupInfo extends Component {
     membersInGroup: [],
     isJoinGroup: false,
     redirectToDisplayMembersInGroup: false,
-    joinGroup:false,
-    arrUser:[],
+    joinGroup: false,
+    arrUser: []
   };
   isGroupClose = false;
   isInTheGroup = false;
@@ -65,8 +65,8 @@ export default class GroupInfo extends Component {
         }
       }
       if (!this.isInTheGroup) {
-        this.userGroups();
-      } 
+        this.joinGroup();
+      }
     }
   };
 
@@ -89,27 +89,26 @@ export default class GroupInfo extends Component {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   userGroups = () => {
-    axios.get (`/users/findUserGroups/${localStorage.user}/${localStorage.groupId}`)
-    .then(res => {
-      if (res.status === 200) {
-        console.log (res.status);
-      } else {
-        throw res;
-      }
-    }).catch(err => {
-      console.log(err);
-    })
-  }
+    axios
+      .get(`/users/findUserGroups/${localStorage.user}/${localStorage.groupId}`)
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res.status);
+        } else {
+          throw res;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     let disabled = false;
-    if (
-      this.state.group.groupStatus !== "open" ||
-      !("user" in localStorage)
-    ) {
+    if (this.state.group.groupStatus !== "open" || !("user" in localStorage)) {
       disabled = true;
     }
 
@@ -130,32 +129,40 @@ export default class GroupInfo extends Component {
 
     return (
       <div className="groupInfo">
-        <div className="row">
-          <div className="col-8">
-            <h1>{this.state.group.groupName}</h1>
+        <div className="row GroupInfo-Row">
+          <div className="col-6">
+            <h1 className="GroupName">{this.state.group.groupName}</h1>
             <span>
               Created by
               <h6>{this.state.group.groupManager}</h6>
             </span>
           </div>
-          <div className="col-4">
+          <div className="col-4 Details">
             <div>
-              <MdPlace />
-              <span>{this.state.group.city}</span>
+              <MdPlace className="LocationIcon" />
+              <span className="Street">{this.state.group.street}</span>{" "}
+              <span className="StreetNumber">
+                {this.state.group.streetNumber}
+              </span>{" "}
+              * <span className="City">{this.state.group.city}</span>
             </div>
-            <div>
-              <MdWatchLater />
-              <span>
+            <div >
+              <MdWatchLater className="TimeIcon" />
+              <span className="Date">
                 {moment(this.state.group.date).format("MMMM Do YYYY")}
               </span>
-              <br />
-              <span>{this.state.group.startTime}</span> to{" "}
-              <span>{this.state.group.endTime}</span>
+              <div className="Time">
+                <span className="From">{this.state.group.startTime}</span> to{" "}
+                <span className="To">{this.state.group.endTime}</span>
+              </div>
             </div>
             <div>
-              <MdPeople />
-              <span>{this.state.membersInGroup.length} members</span>
+              <MdPeople className="GroupIcon" />
+              <span className="Members">
+                {this.state.membersInGroup.length} members
+              </span>
               <span
+                className="SeeAll"
                 onClick={() => {
                   this.setState({ redirectToDisplayMembersInGroup: true });
                 }}
@@ -166,26 +173,27 @@ export default class GroupInfo extends Component {
             </div>
             <div>
               {this.state.group.groupStatus === "open" ? (
-                <MdLockOpen />
+                <MdLockOpen className="StatusIcon" />
               ) : (
-                <MdLockOutline />
+                <MdLockOutline className="StatusIcon" />
               )}
-              <span>{this.state.group.groupStatus}</span>
+              <span className="Status">{this.state.group.groupStatus}</span>
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-8">
-            <h5>Details</h5>
+
+        <div className="row GroupInfo-Row">
+          <div className="col-6 Info-GroupDescription">
+            <h5 className="Info-GroupTitle">Details</h5>
             <p>{this.state.group.description}</p>
             <p>* only registered members can join group</p>
           </div>
           <div className="col-4">
-            <button
+            <button className="Info-JoinGroupBtn"
               disabled={disabled}
               onClick={() => {
                 this.isMemberInGroup();
-                this.setState ({joinGroup:true});
+                this.setState({ joinGroup: true });
                 setTimeout(() => {
                   window.location.reload(false);
                 }, 5000);
@@ -199,7 +207,6 @@ export default class GroupInfo extends Component {
                 <span>You are now member in {this.state.group.groupName}</span>
               </div>
             ) : null}
-            {this.state.joinGroup ? <p>Already a member</p> : null}
           </div>
         </div>
       </div>

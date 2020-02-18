@@ -1,7 +1,89 @@
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro|Playfair+Display&display=swap");
+
 .groupInfo{
-    padding: 20px;
+    font-size: 16px;
+    height: 100vh;
+    text-transform: capitalize;
+    background-image: url('/MainBackgroungImage.jpg');
+    background-size: cover;
+    padding-top: 5%;
+    color: white;
+}
+.GroupInfo-Row {
+    width: 50%;
+    padding: 40px;
+    margin: 0 auto;
+    background-color: rgba(33, 33, 33, 0.9);
 }
 
-.col-4{
-    position: sticky;
+.Details {
+    background-color:rgba(251, 192, 45, 0.5);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: left;
+    font-size: 1.1em;
+    margin-left: 70px;
+    color: rgb(33, 33, 33);
+}
+
+.LocationIcon,
+.TimeIcon,
+.GroupIcon,
+.StatusIcon {
+    margin-right: 20px;
+    color: rgb(33, 33, 33);
+}
+
+.Time {
+    margin-left: 40px;
+    color: rgb(33, 33, 33);
+}
+.SeeAll {
+    color: white;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+.SeeAll:hover{
+    color: skyblue;
+}
+
+span {
+    display: inline;
+}
+
+.GroupName {
+    font-family: 'Playfair Display', serif;
+}
+
+.Info-GroupDescription {
+    padding-top: 50px;
+    color: white;
+}
+
+.Info-GroupTitle {
+    font-size: 2em;
+    font-family: 'Playfair Display', serif;
+}
+
+.Info-JoinGroupBtn {
+    border: none;
+    width: 190px;
+    background: #374046;
+    color: white;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 0;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-left: 70px;
+}
+
+.Info-JoinGroupBtn:hover{
+    color: #374046;
+    background-color: rgba(251, 192, 45);
+}
+
+.Info-JoinGroupBtn:disabled {
+    cursor: auto;
 }

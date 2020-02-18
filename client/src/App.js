@@ -12,11 +12,11 @@ class App extends Component {
         <div>
           <Navbar />
         </div>
-        {localStorage.user ?
+        {/* {localStorage.user ?
           <div className='footer'>
             <Footer />
           </div>
-          : null}
+          : null} */}
       </BrowserRouter>
     );
   }

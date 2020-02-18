@@ -3,14 +3,8 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
-<<<<<<< HEAD
 import { FaRegTrashAlt, FaRegEdit, FaLock, FaUnlock } from "react-icons/fa";
 import "./style/displayManagerGroups.css";
-=======
-import { AiOutlineTeam } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { FaRegEdit } from "react-icons/fa";
->>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
 
 export default class DisplayManagerGroups extends Component {
   constructor(props) {
@@ -24,7 +18,6 @@ export default class DisplayManagerGroups extends Component {
     };
   }
 
-<<<<<<< HEAD
   updateStatus = (id, status) => {
     axios
       .get(`/groups/updateStatus/${id}/${status}`)
@@ -65,51 +58,6 @@ export default class DisplayManagerGroups extends Component {
           this.setState({ managerGroupsArr: tempGroups });
 
           this.setState({ isGroupDeleted: true });
-=======
-    constructor(props) {
-        super(props);
-        this.state = {
-            isGroupDeleted: false,
-            redirectToEditGroup: false,
-            managerGroupsArr: [],
-            groupForEdit: [],
-            id: '',
-        }
-    }
-
-    getManagerGroups = () => {
-        axios.get(`/groups/${localStorage.user}`)
-            .then(res => {
-                if (res.status === 200) {
-                    this.setState({ managerGroupsArr: res.data })
-                } else {
-                    console.log(`error statuse code : ${res.status}`);
-                }
-            }).catch(err => { console.log(err) });
-    }
-
-    deleteGroup = (id, index) => {
-        axios.delete(`/groups/${id}`)
-            .then(res => {
-                if (res.status === 200) {
-                    let tempGroups = [...this.state.managerGroupsArr];
-                    tempGroups.splice(index, 1);
-                    this.setState({ managerGroupsArr: tempGroups });
-
-                    this.setState({ isGroupDeleted: true });
-                }
-            }).catch(err => { console.log(err) });
-    }
-
-    getGroupForEdit = (id) => {
-        let tempGroups = [...this.state.managerGroupsArr];
-        for (let i = 0; i < tempGroups.length; i++) {
-            const element = tempGroups[i];
-            if (element._id === id) {
-                this.setState({ groupForEdit: element });
-                this.setState({ id: id });
-            }
->>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
         }
       })
       .catch(err => {
@@ -128,40 +76,6 @@ export default class DisplayManagerGroups extends Component {
     }
   };
 
-<<<<<<< HEAD
-  //   generalPage = (
-  //     <div className="App">
-  //         <div className="upperMenu">
-  //             <Link to='/' id="logoLink">TeamUp</Link>
-  //             <Link to='/login' className="logLink">Log in</Link>
-  //             <Link to='/register' id="registerLink">Register</Link>
-  //         </div>
-  //     </div>
-  // )
-  // statusClose = (
-  //   <div
-  //     onClick={() => {
-  //       this.updateStatus(group._id, "close");
-  //       window.location.reload(false);
-  //     }}
-  //   >
-  //     <FaLock />
-  //     <span>Close Group</span>
-  //   </div>
-  // );
-
-  // statusOpen = (
-  //   <div
-  //     onClick={() => {
-  //       this.updateStatus(group._id, "open");
-  //       window.location.reload(false);
-  //     }}
-  //   >
-  //     <FaUnlock />
-  //     <span>Open Group</span>
-  //   </div>
-  // );
-
   render() {
     if (this.state.redirectToEditGroup) {
       return (
@@ -176,23 +90,19 @@ export default class DisplayManagerGroups extends Component {
 
     return (
       <div className="displayManagerGroup">
-        {this.state.isGroupDeleted ? (
-          <span style={{ color: "green" }}>Group has been deleted</span>
-        ) : null}
-
+        <h3 className="DisplayManagerGroups-MainTitle">Groups you manage</h3>
         {this.state.managerGroupsArr.map((group, i) => {
           return (
-            <div className="managerGroups" key={i}>
-              <div className="groupInfo">
-                <span className="groupName">{group.groupName}</span>
-                <span className="numMembers">
+            <div className="ManagerGroups" key={i}>
+              <div className="ManagerGroups-GroupInfo">
+                <span className="ManagerGroups-GroupName">{group.groupName}</span>
+                <span className="ManagerGroups-NumMembers">
                   {group.members.length} members
                 </span>
-                <span className="groupStatus">{group.groupStatus}</span>
-                <span className="groupStatus">{group.date}</span>
+                <span className="ManagerGroups-GroupStatus">{group.groupStatus}</span>
               </div>
-              <div>
-                <div
+              <div className="ManagerGroups-GroupsEdit">
+                <div className="ManagerGroups-Icons"
                   onClick={() => {
                     this.deleteGroup(group._id, i);
                   }}
@@ -201,7 +111,7 @@ export default class DisplayManagerGroups extends Component {
                   <span>Delete Group</span>
                 </div>
 
-                <div
+                <div className="ManagerGroups-Icons"
                   onClick={() => {
                     this.setState({ redirectToEditGroup: true });
                     this.getGroupForEdit(group._id);
@@ -210,58 +120,36 @@ export default class DisplayManagerGroups extends Component {
                   <FaRegEdit />
                   <span>Edit Group</span>
                 </div>
-                  {console.log(moment(group.date))}
-                  {console.log(moment (new Date()))}
-                  {console.log(group.date <= new Date())}
-                {group.date <= new Date() ? (
-                      <div
+                {moment(new Date()).format("MMM Do YY") >=
+                moment(group.date).format("MMM Do YY") ? (
+                  <div >
+                    {this.updateStatus(group._id, "close")}
+                    <FaLock />
+                    <span>Group Closed</span>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="ManagerGroups-Icons"
                       onClick={() => {
                         this.updateStatus(group._id, "close");
                         window.location.reload(false);
                       }}
                     >
                       <FaLock />
-                      <span>Group Closed</span>
+                      <span>Close Group</span>
                     </div>
-                ) : (
-                  <span>{group.groupStatus}</span>
+                    <div className="ManagerGroups-Icons"
+                      onClick={() => {
+                        this.updateStatus(group._id, "open");
+                        window.location.reload(false);
+                      }}
+                    >
+                      <FaUnlock />
+                      <span>Open Group</span>
+                    </div>
+                  </div>
                 )}
-
               </div>
-=======
-    render() {
-        if (this.state.redirectToEditGroup) {
-            return <Redirect to={{
-                pathname: '/editGroup',
-                state: { id: this.state.id, editGroup: this.state.groupForEdit }
-            }} />
-        }
-
-        return (
-            <div>
-                {this.state.isGroupDeleted ? <span style={{ color: 'green' }}>Group has been deleted</span> : null}
-                {this.state.managerGroupsArr.map((group, i) => {
-                    return (
-                        <div key={i}>
-                            <AiOutlineTeam />
-                            <span>{group.groupName}</span>
-
-                            <div>
-                                <FaRegTrashAlt onClick={() => {
-                                    this.deleteGroup(group._id, i);
-                                }} />
-
-                                <span />   <span />
-
-                                <FaRegEdit onClick={() => {
-                                    this.setState({ redirectToEditGroup: true });
-                                    this.getGroupForEdit(group._id);
-                                }} />
-                            </div>
-                        </div>
-                    )
-                })}
->>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
             </div>
           );
         })}
@@ -269,13 +157,7 @@ export default class DisplayManagerGroups extends Component {
     );
   }
 
-<<<<<<< HEAD
   componentDidMount() {
     this.getManagerGroups();
   }
-=======
-    componentDidMount() {
-        this.getManagerGroups();
-    }
->>>>>>> 1e1f1938707ce4c22ef2d74f9ca0ddaba39a12c1
 }

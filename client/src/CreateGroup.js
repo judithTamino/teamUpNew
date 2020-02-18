@@ -132,17 +132,16 @@ export default class CreateGroup extends Component {
     }
 
     return (
-      <div>
+      <div className="CreateGroup">
         <form>
-          <div>
-            <h1>Start a new group</h1>
-
+          <div className="CreateGroup-Info">
+            <h1 className="CreateGroup-MainTitle">Start a new group</h1>
             <div>
               <div>
-                <span>
+                <span className="CreateGroup-Icon">
                   <FaRegCalendar/>
                 </span>
-                <DatePicker className="form-control datepicker" 
+                <DatePicker className="CreateGroup-DateInput" 
                   selected = {this.state.date}
                   onChange = {
                     e => {
@@ -157,10 +156,10 @@ export default class CreateGroup extends Component {
               </div>
 
               <div>
-                <span>
+                <span className="CreateGroup-Icon">
                   <FaRegClock style={!this.state.isValidStartTime ? this.timeError : null}/>
                 </span>
-                <TimePicker
+                <TimePicker className="CreateGroup-TimeInput"
                   value = {this.state.beginningTime}
                   disableClock = {true}
                   minTime = '06:00'
@@ -174,11 +173,11 @@ export default class CreateGroup extends Component {
                   required
                 />
 
-                <span>
+                <span className="CreateGroup-ArrowIcon">
                   <FaArrowRight/>
                 </span>
                 
-                <TimePicker
+                <TimePicker className="CreateGroup-TimeInput"
                   value = {this.state.endingTime}
                   disableClock = {true}
                   minTime = '06:00'
@@ -194,10 +193,10 @@ export default class CreateGroup extends Component {
               </div>
 
               <div>
-                <span>
+                <span className="CreateGroup-Icon">
                   <FaLocationArrow/>
                 </span>
-                <input
+                <input className="CreateGroup-Input"
                   type="text"
                   placeholder="Street"
                   onChange={e => {
@@ -207,7 +206,7 @@ export default class CreateGroup extends Component {
                   style = {!this.state.isAllLetter ? this.error : null}
                   required
                 />
-                <input
+                <input className="CreateGroup-Input"
                   type="number"
                   placeholder="Street number"
                   onChange={e =>
@@ -215,7 +214,7 @@ export default class CreateGroup extends Component {
                   }
                   required
                 />
-                <input
+                <input className="CreateGroup-Input"
                   type="text"
                   placeholder="City"
                   onChange={e => {
@@ -231,7 +230,7 @@ export default class CreateGroup extends Component {
             <hr />
 
             <div>
-              <input
+              <input className="CreateGroup-Input"
                 type="text"
                 placeholder="Group name"
                 onChange={e => {
@@ -244,21 +243,21 @@ export default class CreateGroup extends Component {
             </div>
 
             <div>
-              <select
+              <select className="CreateGroup-SelectCategory"
                 onChange={e => {
                   this.setState({ category: e.target.value});
                   this.selectCategory(e);
                 }}
               >
-                <option disabled > Select category</option>
+                <option className="CreateGroup-OptionCategory" disabled > Select category</option>
                 {this.state.arrCategories.map((cat, i) => {
-                  return <option value={cat._id} key={i}>{cat.name}</option>;
+                  return <option className="CreateGroup-OptionCategory"  value={cat._id} key={i}>{cat.name}</option>;
                 })}
               </select>
             </div>
 
             <div>
-              <input
+              <input className="CreateGroup-Input"
                 type="text"
                 placeholder="Topic"
                 onChange={e => {
@@ -271,7 +270,7 @@ export default class CreateGroup extends Component {
             </div>
 
             <div>
-              <textarea
+              <textarea className="CreateGroup-InputDescription"
                 placeholder="Description"
                 maxLength="300"
                 rows="4"
@@ -285,7 +284,7 @@ export default class CreateGroup extends Component {
               />
             </div>
 
-            <button
+            <button className="CreateGroupBtn"
               onClick={() => {
                 this.createGroup();
               }}
@@ -293,7 +292,6 @@ export default class CreateGroup extends Component {
             >
               Create group
             </button>
-            <button onClick={this.redirectToUserHomePage}>Profile</button>
           </div>
         </form>
       </div>

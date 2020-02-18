@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro|Playfair+Display&display=swap");
+
+.CreateGroup {
+    font-size: 16px;
+    height: 100vh;
+    text-transform: capitalize;
+    background-image: url('/MainBackgroungImage.jpg');
+    background-size: cover;
+    padding-top: 5%;
+    font-family: 'Maven Pro', sans-serif;
+}
+
+.CreateGroup-Info {
+    width: 50%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: rgba(33, 33, 33, 0.9);
+    padding: 20px;
+    text-align: center;
+}
+
+.CreateGroup-MainTitle {
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    padding-top: 10px;
+    color: white;
+}
+.CreateGroup-Icon {
+    color: white;
+    font-size: 1.5em;
+    padding: 20px;
+}
+
+.CreateGroup-ArrowIcon {
+    color: white;
+    font-size: 1.4em;
+    padding: 20px;
+}
+
+.CreateGroup-DateInput {
+    width: 300px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    color: #fff;
+    margin-bottom: 20px;
+    color: #FBC02D;
+}
+
+.CreateGroup-TimeInput {
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    margin-bottom: 20px;
+    color: #FBC02D;
+}
+
+.CreateGroup-Input {
+    width: 300px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    margin-bottom: 20px;
+    color: #FBC02D;
+
+}
+
+.CreateGroup-InputDescription {
+    border: 1px solid #fff;
+    text-align: center;
+    background-color: transparent;
+    width: 600px;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    margin-bottom: 20px;
+    color: #FBC02D;
+}
+
+.CreateGroup-SelectCategory {
+    border: 1px solid #fff;
+    text-align: center;
+    background-color: transparent;
+    width: 600px;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    transition: border 0.5s;
+    outline: none;
+    margin-bottom: 20px;
+    color: #FBC02D;
+}
+
+.CreateGroup-OptionCategory {
+    background-color: rgba(33, 33, 33, 0.9);
+}
+
+.CreateGroupBtn {
+    border: none;
+    width: 30em;
+    background: white;
+    color:rgb(33, 33, 33);
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 0;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+.CreateGroupBtn:hover{
+    color: #fff;
+    background-color: black;
+}

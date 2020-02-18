@@ -5,10 +5,8 @@ import "./style/EditGroup.css";
 
 import moment from "moment";
 
-import {FaRegCalendar} from "react-icons/fa";
-
 export default class EditGroup extends Component {
-  oldMeetingDate = moment (this.props.location.state.editGroup.date).format ();
+  oldMeetingDate = moment(this.props.location.state.editGroup.date).format();
   state = {
     redirectToProfile: false,
     id: this.props.location.state.id,
@@ -107,61 +105,48 @@ export default class EditGroup extends Component {
   };
 
   render() {
-    console.log (this.oldMeetingDate);
-    console.log ();
+    console.log(this.oldMeetingDate);
+    console.log();
     if (this.state.redirectToProfile) {
       return <Redirect to="/userHomePage" />;
     }
     return (
-      <div>
-        <h2>Edit your group</h2>
-        {this.state.isUpdate ? (
-          <h5 style={{ color: "#007944" }}>
-            Your group has been change successfully
-          </h5>
-        ) : null}
+      <div className="editGroup">
+        <div className="EditGroup-Info">
+          <h2 className="EditGroup-MainTitle">Edit your group</h2>
+          {this.state.isUpdate ? (
+            <h5 style={{ color: "#007944" }}>
+              Your group has been change successfully
+            </h5>
+          ) : null}
 
-        <div>
-          <span>
-            <FaRegCalendar />
-          </span>
-          {/* <DatePicker
-            className="form-control datepicker"
-            selected={this.state}
-            onChange={e => {
-              this.setState({ date: e });
-            }}
-            todayButton="Today"
-            placeholderText="Click to select a date"
-            minDate={new Date()}
-            dateFormat="dd/MM/yyyy"
-            highlightDates={new Date()}
-          /> */}
-          <h5>Date:</h5>
-          <input
-            type="date"
-            defaultValue={this.state.group.date}
-            onChange={event => {
-              this.setState({ date: event.target.value });
-              this.validMeetingDate(event);
-            }}
-            style={!this.state.isValidMeetingDate ? this.error : null}
-          />
-
-          <span
-            onClick={() => {
-              this.editGroup();
-            }}
-          >
-            Edit
-          </span>
-        </div>
-
-        <div>
           <div>
-            <h5>Time:</h5>
-            <span>From</span>{" "}
+            <h5 className="EditGroup-DateTitle">Date:</h5>
             <input
+              className="EditGroup-DateInput"
+              type="date"
+              defaultValue={this.state.group.date}
+              onChange={event => {
+                this.setState({ date: event.target.value });
+                this.validMeetingDate(event);
+              }}
+              style={!this.state.isValidMeetingDate ? this.error : null}
+            />
+
+            <span
+              className="EditGroup-EditBtn"
+              onClick={() => {
+                this.editGroup();
+              }}
+            >
+              Edit
+            </span>
+          </div>
+
+          <div>
+            <h5 className="EditGroup-TimeTitle">Time:</h5>
+            <span className="EditGroup-TimeText-From">From</span>{" "}
+            <input className="EditGroup-TimeInput"
               type="time"
               defaultValue={this.state.group.startTime}
               onChange={event => {
@@ -170,8 +155,8 @@ export default class EditGroup extends Component {
               }}
               style={!this.state.isValidStartTime ? this.error : null}
             />
-            <span>To</span>{" "}
-            <input
+            <span className="EditGroup-TimeText-To">To</span>{" "}
+            <input className="EditGroup-TimeInput"
               type="time"
               defaultValue={this.state.group.endTime}
               onChange={event => {
@@ -180,7 +165,7 @@ export default class EditGroup extends Component {
               }}
               style={!this.state.isValidEndTime ? this.error : null}
             />
-            <span
+            <span className="EditGroup-EditBtn"
               onClick={() => {
                 this.editGroup();
               }}
@@ -188,70 +173,63 @@ export default class EditGroup extends Component {
               Edit
             </span>
           </div>
-        </div>
 
-        <div>
-          <h5>Location:</h5>
-          <input
-            type="text"
-            defaultValue={this.state.group.street}
-            onChange={event => {
-              this.setState({ street: event.target.value });
-              this.allLetters(event);
-            }}
-            style={!this.state.isAllLetters ? this.error : null}
-          />
-          <input
-            type="number"
-            defaultValue={this.state.group.streetNumber}
-            onChange={event => {
-              this.setState({ streetNumber: event.target.value });
-            }}
-          />
-          <input
-            type="text"
-            defaultValue={this.state.group.city}
-            onChange={event => {
-              this.setState({ city: event.target.value });
-              this.allLetters(event);
-            }}
-            style={!this.state.isAllLetters ? this.error : null}
-          />
+          <div>
+            <h5 className="EditGroup-LocationTitle">Location:</h5>
+            <input className="EditGroup-LocationInput"
+              type="text"
+              defaultValue={this.state.group.street}
+              onChange={event => {
+                this.setState({ street: event.target.value });
+                this.allLetters(event);
+              }}
+              style={!this.state.isAllLetters ? this.error : null}
+            />
+            <input className="EditGroup-LocationInput"
+              type="number"
+              defaultValue={this.state.group.streetNumber}
+              onChange={event => {
+                this.setState({ streetNumber: event.target.value });
+              }}
+            />
+            <input className="EditGroup-LocationInput"
+              type="text"
+              defaultValue={this.state.group.city}
+              onChange={event => {
+                this.setState({ city: event.target.value });
+                this.allLetters(event);
+              }}
+              style={!this.state.isAllLetters ? this.error : null}
+            />
+            <span className="EditGroup-EditBtn"
+              onClick={() => {
+                this.editGroup();
+              }}
+            >
+              Edit
+            </span>
+          </div>
 
-          <span
-            onClick={() => {
-              this.editGroup();
-            }}
-          >
-            Edit
-          </span>
-        </div>
+          <div>
+            <h5 className="EditGroup-GroupTitle">Group Name:</h5>
+            <input className="EditGroup-GroupInput"
+              type="text"
+              defaultValue={this.state.group.groupName}
+              onChange={event => {
+                this.setState({ groupName: event.target.value });
+                this.allLetters(event);
+              }}
+              style={!this.state.isAllLetters ? this.error : null}
+            />
 
-        <div>
-          <h5>Group Name:</h5>
-          <input
-            type="text"
-            defaultValue={this.state.group.groupName}
-            onChange={event => {
-              this.setState({ groupName: event.target.value });
-              this.allLetters(event);
-            }}
-            style={!this.state.isAllLetters ? this.error : null}
-          />
-
-          <span
-            onClick={() => {
-              this.editGroup();
-            }}
-          >
-            Edit
-          </span>
-        </div>
-
-        <div>
-          <button onClick={() => this.setState({ redirectToProfile: true })}>
-            My Profile
-          </button>
+            <span className="EditGroup-EditBtn"
+              onClick={() => {
+                this.editGroup();
+              }}
+            >
+              Edit
+            </span>
+          </div>
         </div>
       </div>
     );
